@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { AppData, Wallet, WalletType } from '@/types/finance';
 import { formatRupiah } from '@/lib/storage';
+import { maskBalance } from '@/lib/financeCalculations';
 
 interface WalletsViewProps {
   appData: AppData;
@@ -39,7 +40,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
   const [accountNumber, setAccountNumber] = useState('');
   const [color, setColor] = useState('#27272a');
 
-  const mask = (val: string) => (hideBalance ? 'Rp ••••••••' : val);
+  const mask = (val: string) => maskBalance(val, hideBalance);
   const totalBalance = appData.wallets.reduce((acc, w) => acc + w.balance, 0);
 
   const handleOpenAdd = () => {
@@ -210,7 +211,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
                 <p className="text-[11px] text-[var(--color-text-secondary)]">Saldo Tersedia</p>
                 <div className="flex items-baseline justify-between mt-1">
                   <p className="font-tabular font-semibold text-lg text-[var(--color-text)]">
-                    {hideBalance ? 'Rp ••••••••' : formatRupiah(w.balance)}
+                    {mask(formatRupiah(w.balance))}
                   </p>
                   {w.accountNumber && (
                     <span className="font-tabular text-xs text-[var(--color-text-secondary)]">

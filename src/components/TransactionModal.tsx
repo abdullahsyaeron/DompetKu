@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowDownRight, ArrowUpRight, ArrowLeftRight, Check, BookmarkPlus } from 'lucide-react';
 import { AppData, Transaction, TransactionType } from '@/types/finance';
 import { formatRupiah } from '@/lib/storage';
@@ -35,6 +35,17 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const [prevProps, setPrevProps] = useState({ isOpen, initialType });
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (isOpen !== prevProps.isOpen || initialType !== prevProps.initialType) {
     setPrevProps({ isOpen, initialType });

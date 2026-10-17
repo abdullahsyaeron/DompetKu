@@ -178,7 +178,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             </div>
           </div>
           <div className="apple-badge bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] font-mono text-[11px]">
-            PIN: {appData.pinHash}
+            PIN: ••••
           </div>
         </div>
 

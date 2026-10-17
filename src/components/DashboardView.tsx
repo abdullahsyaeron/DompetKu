@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { AppData, QuickTemplate } from '@/types/finance';
 import { formatRupiah, formatDateID } from '@/lib/storage';
-import { calculateMonthlyCashflow, calculateBudgetUsage } from '@/lib/financeCalculations';
+import { calculateMonthlyCashflow, calculateBudgetUsage, maskBalance } from '@/lib/financeCalculations';
 import { TabKey } from './BottomNav';
 
 interface DashboardViewProps {
@@ -82,7 +82,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             Total Saldo Likuid
           </p>
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--color-text)] font-tabular mt-1">
-            {hideBalance ? 'Rp ••••••••' : formatRupiah(totalLiquidAssets)}
+            {maskBalance(formatRupiah(totalLiquidAssets), hideBalance)}
           </h2>
         </div>
 

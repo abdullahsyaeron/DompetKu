@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { AppData, Goal } from '@/types/finance';
 import { formatRupiah, formatDateID } from '@/lib/storage';
+import { maskBalance } from '@/lib/financeCalculations';
 
 interface GoalsViewProps {
   appData: AppData;
@@ -46,7 +47,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
   const [goalErrorMsg, setGoalErrorMsg] = useState<string | null>(null);
   const [depositErrorMsg, setDepositErrorMsg] = useState<string | null>(null);
 
-  const mask = (val: string) => (hideBalance ? 'Rp ••••••••' : val);
+  const mask = (val: string) => maskBalance(val, hideBalance);
 
   const totalTarget = appData.goals.reduce((acc, g) => acc + g.targetAmount, 0);
   const totalSaved = appData.goals.reduce((acc, g) => acc + g.currentAmount, 0);

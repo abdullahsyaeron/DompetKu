@@ -113,10 +113,14 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
         const cat = appData.categories.find((c) => c.id === tx.categoryId)?.name || '';
         const notes = tx.notes || '';
         const wallet = appData.wallets.find((w) => w.id === tx.walletId)?.name || '';
+        const toWallet = tx.toWalletId ? appData.wallets.find((w) => w.id === tx.toWalletId)?.name || '' : '';
+        const isTransferMatch = tx.type === 'transfer' && 'transfer'.includes(q);
         return (
           cat.toLowerCase().includes(q) ||
           notes.toLowerCase().includes(q) ||
-          wallet.toLowerCase().includes(q)
+          wallet.toLowerCase().includes(q) ||
+          toWallet.toLowerCase().includes(q) ||
+          isTransferMatch
         );
       }
       return true;
