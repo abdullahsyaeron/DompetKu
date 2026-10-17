@@ -133,24 +133,18 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
         <div className="sm:hidden w-10 h-1.5 rounded-full bg-[var(--color-border)] mx-auto my-2.5 shrink-0" />
 
         {/* iOS Navigation Header */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 border-b border-[var(--color-border-soft)] shrink-0">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-[var(--color-border-soft)] shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="text-sm font-normal text-[var(--color-primary)] hover:opacity-80 apple-press py-1 px-2 cursor-pointer"
+            className="text-sm font-normal text-[var(--color-primary)] hover:opacity-80 apple-press py-1 px-1.5 cursor-pointer"
           >
             Batal
           </button>
           <h2 className="text-base font-semibold text-[var(--color-text)]">
             Catat Transaksi
           </h2>
-          <button
-            type="submit"
-            form="transaction-form"
-            className="text-sm font-semibold text-[var(--color-primary)] hover:opacity-80 apple-press py-1 px-2 cursor-pointer"
-          >
-            Simpan
-          </button>
+          <div className="w-10" aria-hidden="true" />
         </div>
 
         {/* Scrollable Form Body */}
