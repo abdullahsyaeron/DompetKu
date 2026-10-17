@@ -162,7 +162,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 placeholder="0"
                 value={amountStr}
                 onChange={(e) => setAmountStr(e.target.value)}
-                className="apple-input pl-11 pr-3 text-xl font-mono font-semibold"
+                className="apple-input !pl-11 pr-3 text-xl font-mono font-semibold"
               />
             </div>
             {parsedAmount > 0 && (

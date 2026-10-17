@@ -96,31 +96,37 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       </div>
 
       {/* 2. Tactile Quick Actions */}
-      <div className="grid grid-cols-3 gap-2.5">
+      <div className="grid grid-cols-3 gap-3">
         <button
           type="button"
           onClick={() => onOpenAddModal('expense')}
-          className="apple-btn apple-btn-secondary w-full gap-2 text-xs font-semibold hover:border-[var(--color-border)] active:scale-[0.98]"
+          className="apple-card apple-card-hover flex items-center justify-center gap-2 h-12 px-2.5 sm:px-3 text-xs font-semibold text-[var(--color-text)] active:scale-[0.98] transition-all"
         >
-          <Plus className="h-4 w-4 text-[var(--color-danger-text)]" />
+          <div className="h-6 w-6 rounded-lg bg-[var(--color-danger-bg)] text-[var(--color-danger-text)] flex items-center justify-center shrink-0">
+            <Plus className="h-3.5 w-3.5" />
+          </div>
           <span>Pengeluaran</span>
         </button>
 
         <button
           type="button"
           onClick={() => onOpenAddModal('income')}
-          className="apple-btn apple-btn-secondary w-full gap-2 text-xs font-semibold hover:border-[var(--color-border)] active:scale-[0.98]"
+          className="apple-card apple-card-hover flex items-center justify-center gap-2 h-12 px-2.5 sm:px-3 text-xs font-semibold text-[var(--color-text)] active:scale-[0.98] transition-all"
         >
-          <TrendingUp className="h-4 w-4 text-[var(--color-success-text)]" />
+          <div className="h-6 w-6 rounded-lg bg-[var(--color-success-bg)] text-[var(--color-success-text)] flex items-center justify-center shrink-0">
+            <TrendingUp className="h-3.5 w-3.5" />
+          </div>
           <span>Pemasukan</span>
         </button>
 
         <button
           type="button"
           onClick={() => onOpenAddModal('transfer')}
-          className="apple-btn apple-btn-secondary w-full gap-2 text-xs font-semibold hover:border-[var(--color-border)] active:scale-[0.98]"
+          className="apple-card apple-card-hover flex items-center justify-center gap-2 h-12 px-2.5 sm:px-3 text-xs font-semibold text-[var(--color-text)] active:scale-[0.98] transition-all"
         >
-          <ArrowLeftRight className="h-4 w-4 text-[var(--color-text-secondary)]" />
+          <div className="h-6 w-6 rounded-lg bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center shrink-0">
+            <ArrowLeftRight className="h-3.5 w-3.5" />
+          </div>
           <span>Transfer</span>
         </button>
       </div>

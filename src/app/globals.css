@@ -12,7 +12,7 @@
   /* Surfaces & Canvas */
   --color-bg: #F5F5F7;
   --color-surface: #FFFFFF;
-  --color-surface-2: #FBFBFD;
+  --color-surface-2: #F6F7F9;
 
   /* Text & Border */
   --color-text: #1D1D1F;
@@ -32,19 +32,18 @@
   --color-info-text: #005BB5;
 
   /* Radii */
-  --radius-sm: 8px;
+  --radius-sm: 10px;
   --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-lg: 18px;
   --radius-pill: 999px;
 
   /* Shadows */
-  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.045);
-  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.07);
 
-  /* Glassmorphism */
-  --glass-surface: rgba(255, 255, 255, 0.78);
-  --glass-border: rgba(229, 229, 234, 0.7);
-  --glass-blur: blur(20px) saturate(180%);
+  /* Solid Navbars (Clean, Reliable, Non-murky) */
+  --nav-bg: #FFFFFF;
+  --nav-border: #E5E5EA;
 
   /* Transitions */
   --ease-apple: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -76,11 +75,11 @@
   --color-info-bg: rgba(10, 132, 255, 0.16);
   --color-info-text: #64D2FF;
 
-  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.65);
+  --shadow-sm: 0 3px 12px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.6);
 
-  --glass-surface: rgba(20, 22, 32, 0.88);
-  --glass-border: rgba(255, 255, 255, 0.12);
+  --nav-bg: #141620;
+  --nav-border: rgba(255, 255, 255, 0.12);
 }
 
 body {
@@ -105,11 +104,11 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-soft);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
 .apple-card-hover:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1.5px);
   box-shadow: var(--shadow-md);
 }
 
@@ -117,14 +116,16 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
-  padding: 0 20px;
+  height: 42px;
+  padding: 0 18px;
   border-radius: var(--radius-md);
   font-family: var(--font-system);
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
+  border: 1px solid transparent;
   transition: all var(--transition-fast);
+  user-select: none;
 }
 
 .apple-btn:active {
@@ -143,8 +144,8 @@ h1, h2, h3, h4, h5, h6 {
 .apple-btn-secondary {
   background-color: var(--color-surface);
   color: var(--color-text);
-  border: 1px solid var(--color-border-soft);
-  box-shadow: var(--shadow-sm);
+  border-color: var(--color-border-soft);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .apple-btn-secondary:hover {
@@ -154,16 +155,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .apple-input {
   width: 100%;
-  min-height: 44px;
-  padding: 10px 14px;
-  font-size: 15px;
+  height: 42px;
+  padding: 0 14px;
+  font-size: 14px;
   font-family: var(--font-system);
   color: var(--color-text);
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   outline: none;
-  transition: all var(--transition-fast);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .apple-input:focus {
@@ -174,9 +175,9 @@ h1, h2, h3, h4, h5, h6 {
 .apple-badge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 10px;
+  padding: 3px 9px;
   border-radius: var(--radius-pill);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.3px;
   text-transform: uppercase;
@@ -197,11 +198,10 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-warning-text);
 }
 
-.topbar-glass {
-  background-color: var(--glass-surface);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-color: var(--glass-border);
+.apple-navbar {
+  background-color: var(--nav-bg);
+  border-color: var(--nav-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .font-tabular {

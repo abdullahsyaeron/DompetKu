@@ -156,23 +156,23 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
 
       {/* Search and Filters */}
       <div className="space-y-3">
-        <div className="flex flex-col sm:flex-row gap-2.5">
+        <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--color-text-secondary)]" />
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--color-text-secondary)]" />
             <input
               type="text"
               placeholder="Cari transaksi, pos, atau keterangan..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="apple-input pl-10 text-xs"
+              className="w-full h-11 pl-10 pr-4 text-sm bg-[var(--color-surface)] text-[var(--color-text)] border border-[var(--color-border-soft)] rounded-xl outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 shadow-sm transition-all placeholder:text-[var(--color-text-tertiary)]"
             />
           </div>
 
-          <div className="w-full sm:w-48 shrink-0">
+          <div className="w-full sm:w-52 shrink-0">
             <select
               value={selectedWallet}
               onChange={(e) => setSelectedWallet(e.target.value)}
-              className="apple-input text-xs cursor-pointer"
+              className="w-full h-11 px-3.5 text-sm bg-[var(--color-surface)] text-[var(--color-text)] border border-[var(--color-border-soft)] rounded-xl outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 shadow-sm transition-all cursor-pointer font-medium"
             >
               <option value="all">Semua Dompet</option>
               {appData.wallets.map((w) => (
@@ -184,27 +184,30 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
           </div>
         </div>
 
-        {/* Segmented Type Filter */}
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
+        {/* Apple Segmented Control Filter */}
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] w-fit max-w-full overflow-x-auto scrollbar-none">
           {[
             { id: 'all', label: 'Semua' },
             { id: 'expense', label: 'Pengeluaran' },
             { id: 'income', label: 'Pemasukan' },
             { id: 'transfer', label: 'Transfer' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setSelectedType(tab.id)}
-              className={
-                selectedType === tab.id
-                  ? 'bg-[var(--color-primary)] text-white font-semibold rounded-[var(--radius-pill)] px-3 py-1.5 text-xs transition-all'
-                  : 'bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] border border-[var(--color-border-soft)] rounded-[var(--radius-pill)] px-3 py-1.5 text-xs transition-all'
-              }
-            >
-              {tab.label}
-            </button>
-          ))}
+          ].map((tab) => {
+            const isActive = selectedType === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setSelectedType(tab.id)}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                  isActive
+                    ? 'bg-[var(--color-surface)] text-[var(--color-primary)] shadow-sm font-semibold'
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)]'
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 

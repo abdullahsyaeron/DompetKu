@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
   );
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b topbar-glass">
+    <header className="sticky top-0 z-30 w-full border-b apple-navbar">
       <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Brand Mark */}
         <div className="flex items-center gap-3">
