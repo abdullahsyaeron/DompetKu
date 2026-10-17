@@ -112,7 +112,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
           <button
             type="button"
             onClick={onOpenTransferModal}
-            className="apple-btn apple-btn-secondary h-9 px-3.5 text-xs gap-1.5 active:scale-[0.98]"
+            className="apple-btn apple-btn-secondary apple-press h-9 px-3.5 text-xs gap-1.5"
           >
             <ArrowLeftRight className="h-3.5 w-3.5 text-[var(--color-text-secondary)]" />
             Transfer
@@ -120,7 +120,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
           <button
             type="button"
             onClick={handleOpenAdd}
-            className="apple-btn apple-btn-primary h-9 px-3.5 text-xs gap-1.5 active:scale-[0.98]"
+            className="apple-btn apple-btn-primary apple-press h-9 px-3.5 text-xs gap-1.5"
           >
             <Plus className="h-4 w-4" />
             Tambah
@@ -129,7 +129,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
       </div>
 
       {/* Hero Card */}
-      <div className="apple-card p-6">
+      <div className="apple-card p-6 rounded-[20px]">
         <div className="flex items-center justify-between">
           <div>
             <span className="apple-badge text-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary)]">
@@ -139,7 +139,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
               {mask(formatRupiah(totalBalance))}
             </h3>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-text-secondary)]">
+          <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-text-secondary)]">
             <WalletIcon className="h-5 w-5" />
           </div>
         </div>
@@ -159,11 +159,11 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
           return (
             <div
               key={w.id}
-              className="apple-card apple-card-hover p-5 flex flex-col justify-between min-h-[160px]"
+              className="apple-card apple-card-hover p-5 rounded-[20px] flex flex-col justify-between min-h-[160px]"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="h-10 w-10 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-text)] shrink-0">
+                  <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-text)] shrink-0">
                     <IconComp className="h-5 w-5" />
                   </div>
                   <div className="min-w-0">
@@ -180,7 +180,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
                   <button
                     type="button"
                     onClick={() => handleOpenEdit(w)}
-                    className="p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+                    className="apple-press p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
                     title="Ubah data dompet"
                   >
                     <Edit2 className="h-3.5 w-3.5" />
@@ -197,7 +197,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
                           onDeleteWallet(w.id);
                         }
                       }}
-                      className="p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-danger-text)] hover:bg-[var(--color-danger-bg)] transition-colors"
+                      className="apple-press p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-danger-text)] hover:bg-[var(--color-danger-bg)] transition-colors"
                       title="Hapus dompet"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -210,7 +210,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
                 <p className="text-[11px] text-[var(--color-text-secondary)]">Saldo Tersedia</p>
                 <div className="flex items-baseline justify-between mt-1">
                   <p className="font-tabular font-semibold text-lg text-[var(--color-text)]">
-                    {mask(formatRupiah(w.balance))}
+                    {hideBalance ? 'Rp ••••••••' : formatRupiah(w.balance)}
                   </p>
                   {w.accountNumber && (
                     <span className="font-tabular text-xs text-[var(--color-text-secondary)]">
@@ -235,7 +235,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+                className="apple-press p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -309,13 +309,13 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="apple-btn apple-btn-secondary flex-1 active:scale-[0.98]"
+                  className="apple-btn apple-btn-secondary apple-press flex-1"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="apple-btn apple-btn-primary flex-1 active:scale-[0.98] gap-1.5"
+                  className="apple-btn apple-btn-primary apple-press flex-1 gap-1.5"
                 >
                   <Check className="h-4 w-4" />
                   Simpan

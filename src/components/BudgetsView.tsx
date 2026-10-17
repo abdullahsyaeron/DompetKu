@@ -106,7 +106,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
         <button
           type="button"
           onClick={() => handleOpenSetBudget()}
-          className="apple-btn apple-btn-primary h-9 px-3.5 text-xs gap-1.5 active:scale-[0.98] self-start sm:self-auto"
+          className="apple-btn apple-btn-primary apple-press h-9 px-3.5 text-xs gap-1.5 self-start sm:self-auto"
         >
           <Plus className="h-4 w-4" />
           Atur Kuota
@@ -114,10 +114,10 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
       </div>
 
       {/* Overall Budget Summary */}
-      <div className="apple-card p-6 space-y-4">
+      <div className="apple-card p-6 space-y-4 rounded-[20px]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)]">
+            <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)]">
               <PieChart className="h-5 w-5" />
             </div>
             <div>
@@ -173,7 +173,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
       {/* Category Budget Cards */}
       <div className="space-y-3">
         <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
-          Pos Pengeluaran
+          POS PENGELUARAN
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -208,12 +208,12 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
             return (
               <div
                 key={cat.id}
-                className="apple-card apple-card-hover p-5 space-y-3 flex flex-col justify-between"
+                className="apple-card apple-card-hover p-5 rounded-[20px] space-y-3 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="h-8 w-8 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-xs font-semibold text-[var(--color-text)] shrink-0">
+                      <div className="h-8 w-8 rounded-[10px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-xs font-semibold text-[var(--color-text)] shrink-0">
                         {cat.name.slice(0, 1)}
                       </div>
                       <div className="min-w-0">
@@ -241,7 +241,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                           <button
                             type="button"
                             onClick={() => handleOpenSetBudget(cat.id, limit)}
-                            className="p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+                            className="apple-press p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
                             title="Ubah Kuota"
                           >
                             <Edit2 className="h-3.5 w-3.5" />
@@ -254,7 +254,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                                   onDeleteBudget(budget.id);
                                 }
                               }}
-                              className="p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-danger-text)] hover:bg-[var(--color-danger-bg)] transition-colors"
+                              className="apple-press p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-danger-text)] hover:bg-[var(--color-danger-bg)] transition-colors"
                               title="Hapus Kuota"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -265,7 +265,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                         <button
                           type="button"
                           onClick={() => handleOpenSetBudget(cat.id)}
-                          className="apple-btn apple-btn-secondary h-8 px-3 text-xs active:scale-[0.98]"
+                          className="apple-btn apple-btn-secondary apple-press h-8 px-3 text-xs"
                         >
                           + Atur
                         </button>
@@ -315,7 +315,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+                className="apple-press p-1.5 rounded-[8px] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -369,13 +369,13 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="apple-btn apple-btn-secondary flex-1 active:scale-[0.98]"
+                  className="apple-btn apple-btn-secondary apple-press flex-1"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="apple-btn apple-btn-primary flex-1 active:scale-[0.98] gap-1.5"
+                  className="apple-btn apple-btn-primary apple-press flex-1 gap-1.5"
                 >
                   <Check className="h-4 w-4" />
                   Simpan Kuota
