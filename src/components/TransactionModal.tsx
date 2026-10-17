@@ -109,7 +109,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 : 'bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] rounded-[var(--radius-md)] hover:text-[var(--color-text)]'
             }`}
           >
-            <ArrowDownRight className={`h-3.5 w-3.5 ${type === 'expense' ? 'text-white' : 'text-rose-500'}`} />
+            <ArrowDownRight className={`h-3.5 w-3.5 ${type === 'expense' ? 'text-white' : 'text-[var(--color-danger-text)]'}`} />
             Pengeluaran
           </button>
 
@@ -126,7 +126,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 : 'bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] rounded-[var(--radius-md)] hover:text-[var(--color-text)]'
             }`}
           >
-            <ArrowUpRight className={`h-3.5 w-3.5 ${type === 'income' ? 'text-white' : 'text-emerald-500'}`} />
+            <ArrowUpRight className={`h-3.5 w-3.5 ${type === 'income' ? 'text-white' : 'text-[var(--color-success-text)]'}`} />
             Pemasukan
           </button>
 
