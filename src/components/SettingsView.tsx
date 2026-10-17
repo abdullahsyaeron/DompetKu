@@ -43,9 +43,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
   const [copiedSql, setCopiedSql] = useState(false);
 
+  const isPinSet = Boolean(appData.pinHash);
+
   const handleChangePin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (oldPin !== appData.pinHash) {
+    if (isPinSet && oldPin !== appData.pinHash) {
       setPinMessage({ text: 'PIN lama salah!', error: true });
       return;
     }
@@ -62,7 +64,10 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     setOldPin('');
     setNewPin('');
     setConfirmPin('');
-    setPinMessage({ text: 'PIN berhasil diperbarui!', error: false });
+    setPinMessage({
+      text: isPinSet ? 'PIN berhasil diperbarui!' : 'PIN berhasil dibuat & aktif!',
+      error: false,
+    });
     setTimeout(() => setPinMessage(null), 3000);
   };
 
@@ -175,27 +180,29 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             </div>
           </div>
           <div className="apple-badge bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] font-mono text-[11px]">
-            PIN: ••••
+            {isPinSet ? 'PIN: Aktif (••••)' : 'Belum Diatur (Nonaktif)'}
           </div>
         </div>
 
         <form onSubmit={handleChangePin} className="space-y-4 pt-1">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-              <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
-                PIN Lama
-              </label>
-              <input
-                type="password"
-                inputMode="numeric"
-                maxLength={6}
-                required
-                placeholder="••••••"
-                value={oldPin}
-                onChange={(e) => setOldPin(e.target.value)}
-                className="apple-input text-xs font-mono tracking-wider"
-              />
-            </div>
+          <div className={`grid grid-cols-1 ${isPinSet ? 'sm:grid-cols-3' : 'sm:grid-cols-2'} gap-3`}>
+            {isPinSet && (
+              <div>
+                <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
+                  PIN Lama
+                </label>
+                <input
+                  type="password"
+                  inputMode="numeric"
+                  maxLength={6}
+                  required
+                  placeholder="••••••"
+                  value={oldPin}
+                  onChange={(e) => setOldPin(e.target.value)}
+                  className="apple-input text-xs font-mono tracking-wider"
+                />
+              </div>
+            )}
 
             <div>
               <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
@@ -242,13 +249,31 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             </div>
           )}
 
-          <div>
+          <div className="flex items-center gap-2">
             <button
               type="submit"
-              className="apple-btn apple-btn-primary h-9 px-4 text-xs apple-press"
+              className="apple-btn apple-btn-primary h-9 px-4 text-xs apple-press cursor-pointer"
             >
-              Simpan PIN Baru
+              {isPinSet ? 'Simpan PIN Baru' : 'Pasang & Aktifkan PIN'}
             </button>
+            {isPinSet && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (confirm('Nonaktifkan proteksi PIN aplikasi?')) {
+                    onUpdatePin('');
+                    setOldPin('');
+                    setNewPin('');
+                    setConfirmPin('');
+                    setPinMessage({ text: 'PIN dinonaktifkan.', error: false });
+                    setTimeout(() => setPinMessage(null), 3000);
+                  }
+                }}
+                className="apple-btn apple-btn-secondary h-9 px-3.5 text-xs apple-press cursor-pointer text-[var(--color-text-secondary)]"
+              >
+                Nonaktifkan PIN
+              </button>
+            )}
           </div>
         </form>
       </div>

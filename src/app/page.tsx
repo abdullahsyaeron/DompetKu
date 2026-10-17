@@ -328,7 +328,7 @@ export default function Home() {
 
   // 5. Settings Handlers
   const handleUpdatePin = (newPin: string) => {
-    updateAndSave({ ...appData, pinHash: newPin });
+    updateAndSave({ ...appData, pinHash: newPin, isPinEnabled: Boolean(newPin) });
   };
 
   const handleResetEmptyData = () => {
