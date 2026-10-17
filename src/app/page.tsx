@@ -23,6 +23,12 @@ import { BudgetsView } from '@/components/BudgetsView';
 import { GoalsView } from '@/components/GoalsView';
 import { SettingsView } from '@/components/SettingsView';
 import { TransactionModal } from '@/components/TransactionModal';
+import {
+  isSupabaseConfigured,
+  fetchCloudAppData,
+  syncCloudAppData,
+  subscribeCloudAppData,
+} from '@/lib/supabase';
 import { CheckCircle2 } from 'lucide-react';
 
 function useMounted() {
@@ -99,6 +105,27 @@ export default function Home() {
     applyTheme(mode);
   };
 
+  // Supabase Cloud Sync & Realtime
+  useEffect(() => {
+    if (!isSupabaseConfigured) return;
+
+    fetchCloudAppData().then((cloudData) => {
+      if (cloudData) {
+        setAppData(cloudData);
+        saveAppData(cloudData);
+      }
+    });
+
+    const unsubscribe = subscribeCloudAppData((updatedData) => {
+      setAppData(updatedData);
+      saveAppData(updatedData);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => {
@@ -109,6 +136,11 @@ export default function Home() {
   const updateAndSave = (newData: AppData) => {
     setAppData(newData);
     saveAppData(newData);
+    if (isSupabaseConfigured) {
+      syncCloudAppData(newData).catch((err) => {
+        console.error('Failed to sync to cloud:', err);
+      });
+    }
   };
 
   if (!mounted || !appData) {
