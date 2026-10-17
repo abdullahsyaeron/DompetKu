@@ -7,6 +7,10 @@ export const formatRupiah = (amount: number): string => {
   }).format(amount);
 };
 
+export const maskBalance = (val: string, hide: boolean): string => {
+  return hide ? 'Rp ••••••••' : val;
+};
+
 export interface WalletItem {
   id: string;
   name?: string;

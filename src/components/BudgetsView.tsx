@@ -23,7 +23,6 @@ interface BudgetsViewProps {
 
 export const BudgetsView: React.FC<BudgetsViewProps> = ({
   appData,
-  hideBalance,
   onSaveBudget,
   onDeleteBudget,
 }) => {
@@ -36,7 +35,6 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   const currentMonthName = now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
 
-  const mask = (val: string) => (hideBalance ? 'Rp ••••••••' : val);
   const expenseCategories = appData.categories.filter((c) => c.type === 'expense');
 
   const categorySpendingMap: Record<string, number> = {};
@@ -127,7 +125,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                 Total Plafon Anggaran
               </p>
               <h3 className="text-2xl font-semibold tracking-tight text-[var(--color-text)] font-tabular mt-0.5">
-                {mask(formatRupiah(totalBudgetLimit))}
+                {formatRupiah(totalBudgetLimit)}
               </h3>
             </div>
           </div>
@@ -164,9 +162,9 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
             />
           </div>
           <div className="flex justify-between font-tabular text-xs text-[var(--color-text-secondary)]">
-            <span>Terpakai: {mask(formatRupiah(totalExpenseInBudgetedCategories))}</span>
+            <span>Terpakai: {formatRupiah(totalExpenseInBudgetedCategories)}</span>
             <span>
-              Sisa: {mask(formatRupiah(Math.max(0, totalBudgetLimit - totalExpenseInBudgetedCategories)))}
+              Sisa: {formatRupiah(Math.max(0, totalBudgetLimit - totalExpenseInBudgetedCategories))}
             </span>
           </div>
         </div>
@@ -225,10 +223,10 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                         <p className="font-tabular text-xs text-[var(--color-text-secondary)] mt-0.5 truncate">
                           {limit > 0 ? (
                             <>
-                              Terpakai {mask(formatRupiah(spent))} / {mask(formatRupiah(limit))}
+                              Terpakai {formatRupiah(spent)} / {formatRupiah(limit)}
                             </>
                           ) : (
-                            <>Terpakai {mask(formatRupiah(spent))} (Tanpa Batas)</>
+                            <>Terpakai {formatRupiah(spent)} (Tanpa Batas)</>
                           )}
                         </p>
                       </div>
@@ -294,8 +292,8 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                         }
                       >
                         {remaining < 0
-                          ? `Kelebihan: ${mask(formatRupiah(Math.abs(remaining)))}`
-                          : `Sisa: ${mask(formatRupiah(remaining))}`}
+                          ? `Kelebihan: ${formatRupiah(Math.abs(remaining))}`
+                          : `Sisa: ${formatRupiah(remaining)}`}
                       </span>
                     </div>
                   </div>

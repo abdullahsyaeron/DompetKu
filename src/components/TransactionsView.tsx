@@ -24,7 +24,6 @@ interface TransactionsViewProps {
 
 export const TransactionsView: React.FC<TransactionsViewProps> = ({
   appData,
-  hideBalance,
   onOpenAddModal,
   onExecuteTemplate,
   onDeleteTransaction,
@@ -34,8 +33,6 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
   const [selectedType, setSelectedType] = useState<string>('all');
   const [selectedWallet, setSelectedWallet] = useState<string>('all');
   const [showTemplates, setShowTemplates] = useState<boolean>(false);
-
-  const mask = (val: string) => (hideBalance ? 'Rp ••••••••' : val);
 
   const filteredTransactions = appData.transactions.filter((tx) => {
     if (selectedType !== 'all' && tx.type !== selectedType) return false;
@@ -281,7 +278,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
                       }`}
                     >
                       {tx.type === 'expense' ? '-' : tx.type === 'income' ? '+' : ''}
-                      {mask(formatRupiah(tx.amount))}
+                      {formatRupiah(tx.amount)}
                     </p>
                   </div>
                   <button

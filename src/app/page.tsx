@@ -46,7 +46,22 @@ export default function Home() {
     }
     return true;
   });
-  const [hideBalance, setHideBalance] = useState<boolean>(false);
+  const [hideBalance, setHideBalance] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('quirky_hide_balance') === 'true';
+    }
+    return false;
+  });
+
+  const handleToggleHideBalance = () => {
+    setHideBalance((prev) => {
+      const next = !prev;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('quirky_hide_balance', String(next));
+      }
+      return next;
+    });
+  };
   const [currentTab, setCurrentTab] = useState<TabKey>('dashboard');
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [modalInitialType, setModalInitialType] = useState<TransactionType>('expense');
@@ -315,7 +330,7 @@ export default function Home() {
       {/* Main Top Header */}
       <Header
         hideBalance={hideBalance}
-        onToggleHideBalance={() => setHideBalance(!hideBalance)}
+        onToggleHideBalance={handleToggleHideBalance}
         onLockApp={() => setIsLocked(true)}
         onOpenSettings={() => setCurrentTab('settings')}
         themeMode={themeMode}

@@ -116,6 +116,27 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-md);
 }
 
+.apple-titanium-card {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5F5F7 50%, #EBEBED 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .apple-titanium-card {
+  background: linear-gradient(135deg, #242426 0%, #1C1C1E 50%, #161618 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.apple-press {
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.apple-press:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
 .apple-btn {
   display: inline-flex;
   align-items: center;

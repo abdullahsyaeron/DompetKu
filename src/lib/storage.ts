@@ -40,7 +40,7 @@ export const resetToDummyData = (): AppData => {
   return initialDummyData;
 };
 
-export { formatRupiah } from './financeCalculations';
+export { formatRupiah, maskBalance } from './financeCalculations';
 
 
 export const formatDateID = (isoString: string): string => {

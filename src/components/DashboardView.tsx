@@ -79,7 +79,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <span>Pemasukan Bulan Ini</span>
             </div>
             <p className="mt-1 text-base font-semibold text-[var(--color-success-text)] font-tabular">
-              {mask(formatRupiah(totalIncome))}
+              {formatRupiah(totalIncome)}
             </p>
           </div>
 
@@ -89,7 +89,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <span>Pengeluaran Bulan Ini</span>
             </div>
             <p className="mt-1 text-base font-semibold text-[var(--color-danger-text)] font-tabular">
-              {mask(formatRupiah(totalExpense))}
+              {formatRupiah(totalExpense)}
             </p>
           </div>
         </div>
@@ -354,7 +354,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                       }`}
                     >
                       {tx.type === 'expense' ? '-' : tx.type === 'income' ? '+' : ''}
-                      {mask(formatRupiah(tx.amount))}
+                      {formatRupiah(tx.amount)}
                     </p>
                   </div>
                 </div>
