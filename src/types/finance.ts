@@ -68,4 +68,5 @@ export interface AppData {
   templates: QuickTemplate[];
   pinHash: string; // PIN 4-6 digit
   isPinEnabled: boolean;
+  billingCycleStartDay?: number; // 1 s/d 31 (default: 1)
 }
