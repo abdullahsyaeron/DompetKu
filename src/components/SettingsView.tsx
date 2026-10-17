@@ -15,9 +15,11 @@ import {
   Sun,
   Moon,
   Monitor,
+  CalendarDays,
 } from 'lucide-react';
 import { AppData } from '@/types/finance';
 import { supabaseSchemaSql, isSupabaseConfigured } from '@/lib/supabase';
+import { getBillingCycleRange } from '@/lib/financeCalculations';
 
 export interface SettingsViewProps {
   appData: AppData;
@@ -26,6 +28,7 @@ export interface SettingsViewProps {
   onImportData: (importedData: AppData) => void;
   themeMode: 'light' | 'dark' | 'system';
   onSetTheme: (mode: 'light' | 'dark' | 'system') => void;
+  onUpdateBillingCycleStartDay: (day: number) => void;
 }
 
 export const SettingsView: React.FC<SettingsViewProps> = ({
@@ -35,15 +38,28 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   onImportData,
   themeMode,
   onSetTheme,
+  onUpdateBillingCycleStartDay,
 }) => {
   const [oldPin, setOldPin] = useState('');
   const [newPin, setNewPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
   const [pinMessage, setPinMessage] = useState<{ text: string; error: boolean } | null>(null);
 
+  const [cycleStartDay, setCycleStartDay] = useState<number>(() => appData.billingCycleStartDay || 1);
+  const [cycleSaved, setCycleSaved] = useState(false);
+
   const [copiedSql, setCopiedSql] = useState(false);
 
   const isPinSet = Boolean(appData.pinHash);
+
+  const currentPreview = getBillingCycleRange(new Date(), cycleStartDay, 0);
+
+  const handleSaveCycle = (e: React.FormEvent) => {
+    e.preventDefault();
+    onUpdateBillingCycleStartDay(cycleStartDay);
+    setCycleSaved(true);
+    setTimeout(() => setCycleSaved(false), 3000);
+  };
 
   const handleChangePin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -278,7 +294,68 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </form>
       </div>
 
-      {/* Group 3: Koneksi Database Cloud */}
+      {/* Group 3: Siklus Keuangan Bulanan */}
+      <div className="apple-card p-5 sm:p-6 space-y-4 rounded-[20px]">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
+              <CalendarDays className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">
+                Siklus Keuangan Bulanan
+              </h3>
+              <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+                Sesuaikan periode perhitungan cashflow dengan tanggal gajian Anda
+              </p>
+            </div>
+          </div>
+          <div className="apple-badge bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] font-mono text-[11px]">
+            Mulai: Tgl {cycleStartDay}
+          </div>
+        </div>
+
+        <form onSubmit={handleSaveCycle} className="space-y-4 pt-1">
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-[var(--color-text-secondary)]">
+              Tanggal Mulai Siklus (Gajian)
+            </label>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <select
+                value={cycleStartDay}
+                onChange={(e) => setCycleStartDay(Number(e.target.value))}
+                className="apple-input text-xs font-mono h-10 w-full sm:w-60 cursor-pointer"
+              >
+                {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+                  <option key={day} value={day} className="bg-[var(--color-surface)] text-[var(--color-text)]">
+                    Tanggal {day} {day === 1 ? '(Awal Bulan Kalender)' : day === 25 ? '(Umum Gajian)' : ''}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                type="submit"
+                className="apple-btn apple-btn-primary h-10 px-4 text-xs apple-press cursor-pointer shrink-0"
+              >
+                Simpan Tanggal Siklus
+              </button>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] text-xs text-[var(--color-text-secondary)] flex items-center justify-between flex-wrap gap-2">
+            <span>
+              Siklus aktif periode ini: <strong className="text-[var(--color-text)] font-semibold">{currentPreview.label}</strong>
+            </span>
+            {cycleSaved && (
+              <span className="text-[var(--color-success-text)] font-medium flex items-center gap-1">
+                <Check className="h-3.5 w-3.5" /> Tanggal siklus berhasil disimpan!
+              </span>
+            )}
+          </div>
+        </form>
+      </div>
+
+      {/* Group 4: Koneksi Database Cloud */}
       <div className="apple-card p-5 sm:p-6 space-y-4 rounded-[20px]">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -331,7 +408,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
       </div>
 
-      {/* Group 4: Cadangan & Reset Data */}
+      {/* Group 5: Cadangan & Reset Data */}
       <div className="apple-card p-5 sm:p-6 space-y-4 rounded-[20px]">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
@@ -383,7 +460,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
       </div>
 
-      {/* Group 5: Install di Layar Utama HP */}
+      {/* Group 6: Install di Layar Utama HP */}
       <div className="apple-card p-5 sm:p-6 space-y-4 rounded-[20px]">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">

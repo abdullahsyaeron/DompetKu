@@ -342,6 +342,11 @@ export default function Home() {
     showToast('Data dipulihkan.');
   };
 
+  const handleUpdateBillingCycleStartDay = (day: number) => {
+    updateAndSave({ ...appData, billingCycleStartDay: day });
+    showToast(`Siklus bulanan diatur ke tanggal ${day}.`);
+  };
+
   return (
     <div className="min-h-screen text-[var(--color-text)] selection:bg-[var(--color-primary)] selection:text-white">
       {/* PIN Lockscreen */}
@@ -440,6 +445,7 @@ export default function Home() {
             onImportData={handleImportData}
             themeMode={themeMode}
             onSetTheme={handleSetTheme}
+            onUpdateBillingCycleStartDay={handleUpdateBillingCycleStartDay}
           />
         )}
       </main>
