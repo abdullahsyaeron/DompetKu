@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, ArrowDownRight, ArrowUpRight, ArrowLeftRight, Check, BookmarkPlus } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, ArrowLeftRight, Check, BookmarkPlus } from 'lucide-react';
 import { AppData, Transaction, TransactionType } from '@/types/finance';
 import { formatRupiah } from '@/lib/storage';
 
@@ -27,12 +27,26 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
     appData.wallets.length > 1 ? appData.wallets[1].id : ''
   );
   const [categoryId, setCategoryId] = useState<string>(
-    appData.categories.find(c => c.type === (initialType === 'income' ? 'income' : 'expense'))?.id || ''
+    appData.categories.find((c) => c.type === (initialType === 'income' ? 'income' : 'expense'))?.id || ''
   );
   const [notes, setNotes] = useState<string>('');
   const [saveAsTemplate, setSaveAsTemplate] = useState<boolean>(false);
   const [templateTitle, setTemplateTitle] = useState<string>('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const [prevProps, setPrevProps] = useState({ isOpen, initialType });
+
+  if (isOpen !== prevProps.isOpen || initialType !== prevProps.initialType) {
+    setPrevProps({ isOpen, initialType });
+    if (isOpen) {
+      setType(initialType);
+      const defaultCat = appData.categories.find(
+        (c) => c.type === (initialType === 'income' ? 'income' : 'expense')
+      );
+      if (defaultCat) setCategoryId(defaultCat.id);
+      setErrorMsg(null);
+    }
+  }
 
   if (!isOpen) return null;
 
@@ -48,6 +62,15 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
       const current = parseFloat(prev) || 0;
       return String(current + add);
     });
+  };
+
+  const handleTypeChange = (newType: TransactionType) => {
+    setType(newType);
+    if (newType !== 'transfer') {
+      const firstCat = appData.categories.find((c) => c.type === newType);
+      if (firstCat) setCategoryId(firstCat.id);
+    }
+    setErrorMsg(null);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -77,81 +100,103 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
       templateTitle.trim() || undefined
     );
 
+    setAmountStr('');
+    setNotes('');
+    setSaveAsTemplate(false);
+    setTemplateTitle('');
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="apple-card max-w-lg w-full p-6 space-y-4 rounded-[20px] max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between pb-3 border-b border-[var(--color-border-soft)]">
-          <h2 className="text-sm font-semibold text-[var(--color-text)]">Catat Transaksi</h2>
+    <div
+      className="fixed inset-0 z-50 flex flex-col justify-end sm:justify-center sm:items-center p-0 sm:p-4 bg-black/50"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        className="apple-card w-full sm:max-w-lg rounded-t-[28px] sm:rounded-[22px] max-h-[92vh] flex flex-col overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Drag grabber handle on mobile */}
+        <div className="sm:hidden w-10 h-1.5 rounded-full bg-[var(--color-border)] mx-auto my-2.5 shrink-0" />
+
+        {/* iOS Navigation Header */}
+        <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 border-b border-[var(--color-border-soft)] shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="h-8 w-8 rounded-full flex items-center justify-center text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors"
+            className="text-sm font-normal text-[var(--color-primary)] hover:opacity-80 apple-press py-1 px-2 cursor-pointer"
           >
-            <X className="h-4 w-4" />
+            Batal
+          </button>
+          <h2 className="text-base font-semibold text-[var(--color-text)]">
+            Catat Transaksi
+          </h2>
+          <button
+            type="submit"
+            form="transaction-form"
+            className="text-sm font-semibold text-[var(--color-primary)] hover:opacity-80 apple-press py-1 px-2 cursor-pointer"
+          >
+            Simpan
           </button>
         </div>
 
-        {/* Transaction Type Tabs */}
-        <div className="grid grid-cols-3 gap-1.5 p-1 bg-[var(--color-surface-2)] rounded-[var(--radius-md)] border border-[var(--color-border-soft)]">
-          <button
-            type="button"
-            onClick={() => {
-              setType('expense');
-              const firstExp = appData.categories.find((c) => c.type === 'expense');
-              if (firstExp) setCategoryId(firstExp.id);
-            }}
-            className={`flex items-center justify-center gap-1.5 py-2 text-xs transition-all ${
-              type === 'expense'
-                ? 'bg-[var(--color-primary)] text-white font-semibold rounded-[var(--radius-md)] shadow-sm'
-                : 'bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] rounded-[var(--radius-md)] hover:text-[var(--color-text)]'
-            }`}
-          >
-            <ArrowDownRight className={`h-3.5 w-3.5 ${type === 'expense' ? 'text-white' : 'text-[var(--color-danger-text)]'}`} />
-            Pengeluaran
-          </button>
+        {/* Scrollable Form Body */}
+        <form
+          id="transaction-form"
+          onSubmit={handleSubmit}
+          className="p-4 sm:p-6 overflow-y-auto space-y-4 pb-safe sm:pb-6 flex-1"
+        >
+          {/* Transaction Type Segmented Control */}
+          <div className="grid grid-cols-3 gap-1 p-1 bg-[var(--color-surface-2)] rounded-xl border border-[var(--color-border-soft)]">
+            <button
+              type="button"
+              onClick={() => handleTypeChange('expense')}
+              className={`flex items-center justify-center gap-1.5 py-2 text-xs transition-all apple-press ${
+                type === 'expense'
+                  ? 'bg-[var(--color-surface)] text-[var(--color-primary)] shadow-sm font-semibold rounded-lg'
+                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] font-medium rounded-lg'
+              }`}
+            >
+              <ArrowDownRight className="h-3.5 w-3.5 text-[var(--color-danger-text)]" />
+              Pengeluaran
+            </button>
 
-          <button
-            type="button"
-            onClick={() => {
-              setType('income');
-              const firstInc = appData.categories.find((c) => c.type === 'income');
-              if (firstInc) setCategoryId(firstInc.id);
-            }}
-            className={`flex items-center justify-center gap-1.5 py-2 text-xs transition-all ${
-              type === 'income'
-                ? 'bg-[var(--color-primary)] text-white font-semibold rounded-[var(--radius-md)] shadow-sm'
-                : 'bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] rounded-[var(--radius-md)] hover:text-[var(--color-text)]'
-            }`}
-          >
-            <ArrowUpRight className={`h-3.5 w-3.5 ${type === 'income' ? 'text-white' : 'text-[var(--color-success-text)]'}`} />
-            Pemasukan
-          </button>
+            <button
+              type="button"
+              onClick={() => handleTypeChange('income')}
+              className={`flex items-center justify-center gap-1.5 py-2 text-xs transition-all apple-press ${
+                type === 'income'
+                  ? 'bg-[var(--color-surface)] text-[var(--color-primary)] shadow-sm font-semibold rounded-lg'
+                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] font-medium rounded-lg'
+              }`}
+            >
+              <ArrowUpRight className="h-3.5 w-3.5 text-[var(--color-success-text)]" />
+              Pemasukan
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setType('transfer')}
-            className={`flex items-center justify-center gap-1.5 py-2 text-xs transition-all ${
-              type === 'transfer'
-                ? 'bg-[var(--color-primary)] text-white font-semibold rounded-[var(--radius-md)] shadow-sm'
-                : 'bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] rounded-[var(--radius-md)] hover:text-[var(--color-text)]'
-            }`}
-          >
-            <ArrowLeftRight className={`h-3.5 w-3.5 ${type === 'transfer' ? 'text-white' : 'text-[var(--color-text-secondary)]'}`} />
-            Transfer
-          </button>
-        </div>
+            <button
+              type="button"
+              onClick={() => handleTypeChange('transfer')}
+              className={`flex items-center justify-center gap-1.5 py-2 text-xs transition-all apple-press ${
+                type === 'transfer'
+                  ? 'bg-[var(--color-surface)] text-[var(--color-primary)] shadow-sm font-semibold rounded-lg'
+                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] font-medium rounded-lg'
+              }`}
+            >
+              <ArrowLeftRight className="h-3.5 w-3.5" />
+              Transfer
+            </button>
+          </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Amount Input */}
+          {/* Large Display Amount Input */}
           <div>
             <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
-              Nominal (Rp)
+              Nominal Transaksi
             </label>
-            <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-base font-mono font-medium text-[var(--color-text-secondary)]">
+            <div className="relative flex items-center">
+              <span className="absolute left-3.5 text-xl sm:text-2xl font-semibold font-tabular text-[var(--color-text-secondary)] select-none">
                 Rp
               </span>
               <input
@@ -162,17 +207,17 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 placeholder="0"
                 value={amountStr}
                 onChange={(e) => setAmountStr(e.target.value)}
-                className="apple-input !pl-11 pr-3 text-xl font-mono font-semibold"
+                className="apple-input !h-14 sm:!h-16 !pl-12 sm:!pl-14 pr-4 text-2xl sm:text-3xl font-semibold font-tabular text-[var(--color-text)] rounded-xl"
               />
             </div>
             {parsedAmount > 0 && (
-              <p className="mt-1 text-xs text-[var(--color-text-secondary)] font-mono">
+              <p className="mt-1.5 text-xs text-[var(--color-text-secondary)] font-tabular font-medium">
                 {formatRupiah(parsedAmount)}
               </p>
             )}
 
-            {/* Quick Amount Chips */}
-            <div className="flex flex-wrap gap-1.5 mt-2.5">
+            {/* Quick amount pills */}
+            <div className="flex flex-wrap gap-2 mt-2.5">
               {[
                 { label: '+10rb', val: 10000 },
                 { label: '+50rb', val: 50000 },
@@ -183,7 +228,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                   key={chip.label}
                   type="button"
                   onClick={() => handleQuickAddAmount(chip.val)}
-                  className="apple-card apple-card-hover text-xs font-mono font-medium py-1.5 px-3 rounded-[8px] border border-[var(--color-border-soft)] text-[var(--color-text)] cursor-pointer"
+                  className="apple-card apple-press text-xs font-semibold py-1.5 px-3 rounded-lg border border-[var(--color-border-soft)] text-[var(--color-text)] cursor-pointer"
                 >
                   {chip.label}
                 </button>
@@ -192,7 +237,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setAmountStr('')}
-                  className="px-2.5 py-1.5 text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-danger-text)] transition-colors cursor-pointer"
+                  className="px-2.5 py-1.5 text-xs font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-danger-text)] transition-colors cursor-pointer apple-press"
                 >
                   Reset
                 </button>
@@ -202,7 +247,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
           {/* Wallets */}
           {type === 'transfer' ? (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
                   Dari Dompet
@@ -210,7 +255,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 <select
                   value={walletId}
                   onChange={(e) => setWalletId(e.target.value)}
-                  className="apple-input text-xs bg-[var(--color-surface)] text-[var(--color-text)]"
+                  className="apple-input rounded-xl text-xs bg-[var(--color-surface)] text-[var(--color-text)]"
                 >
                   {appData.wallets.map((w) => (
                     <option key={w.id} value={w.id}>
@@ -227,7 +272,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 <select
                   value={toWalletId}
                   onChange={(e) => setToWalletId(e.target.value)}
-                  className="apple-input text-xs bg-[var(--color-surface)] text-[var(--color-text)]"
+                  className="apple-input rounded-xl text-xs bg-[var(--color-surface)] text-[var(--color-text)]"
                 >
                   {appData.wallets.map((w) => (
                     <option key={w.id} value={w.id}>
@@ -246,7 +291,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 <select
                   value={walletId}
                   onChange={(e) => setWalletId(e.target.value)}
-                  className="apple-input text-xs bg-[var(--color-surface)] text-[var(--color-text)]"
+                  className="apple-input rounded-xl text-xs bg-[var(--color-surface)] text-[var(--color-text)]"
                 >
                   {appData.wallets.map((w) => (
                     <option key={w.id} value={w.id}>
@@ -263,7 +308,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 <select
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
-                  className="apple-input text-xs bg-[var(--color-surface)] text-[var(--color-text)]"
+                  className="apple-input rounded-xl text-xs bg-[var(--color-surface)] text-[var(--color-text)]"
                 >
                   {filteredCategories.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -285,20 +330,20 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
               placeholder="Contoh: Kopi, Makan Siang..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="apple-input text-xs"
+              className="apple-input rounded-xl text-xs"
             />
           </div>
 
           {/* Save as Quick Template Checkbox */}
-          <div className="p-3.5 rounded-[var(--radius-md)] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)]">
-            <label className="flex items-center gap-2 cursor-pointer">
+          <div className="p-3.5 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)]">
+            <label className="flex items-center gap-2.5 cursor-pointer">
               <input
                 type="checkbox"
                 checked={saveAsTemplate}
                 onChange={(e) => setSaveAsTemplate(e.target.checked)}
-                className="rounded border-[var(--color-border)] text-[var(--color-primary)] focus:ring-0 h-4 w-4 bg-[var(--color-surface)]"
+                className="rounded border-[var(--color-border)] text-[var(--color-primary)] focus:ring-0 h-4 w-4 bg-[var(--color-surface)] cursor-pointer"
               />
-              <span className="text-xs text-[var(--color-text)] flex items-center gap-1.5">
+              <span className="text-xs text-[var(--color-text)] flex items-center gap-1.5 font-medium">
                 <BookmarkPlus className="h-3.5 w-3.5 text-[var(--color-text-secondary)]" />
                 Simpan sebagai template input kilat
               </span>
@@ -311,29 +356,23 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                   placeholder="Nama template (cth: Kopi Pagi Rp 25.000)"
                   value={templateTitle}
                   onChange={(e) => setTemplateTitle(e.target.value)}
-                  className="apple-input text-xs"
+                  className="apple-input rounded-xl text-xs"
                 />
               </div>
             )}
           </div>
 
           {errorMsg && (
-            <p className="text-xs text-[var(--color-danger-text)] bg-[var(--color-danger-bg)] p-3 rounded-[var(--radius-md)] border border-[var(--color-danger-text)]/20">
+            <p className="text-xs text-[var(--color-danger-text)] bg-[var(--color-danger-bg)] p-3 rounded-xl border border-[var(--color-danger-text)]/20 font-medium">
               {errorMsg}
             </p>
           )}
 
-          <div className="pt-2 flex gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="apple-btn apple-btn-secondary flex-1"
-            >
-              Batal
-            </button>
+          {/* Primary Submit Button */}
+          <div className="pt-2">
             <button
               type="submit"
-              className="apple-btn apple-btn-primary flex-1 gap-1.5"
+              className="apple-btn apple-btn-primary w-full gap-2 rounded-xl apple-press"
             >
               <Check className="h-4 w-4" />
               Simpan Transaksi
