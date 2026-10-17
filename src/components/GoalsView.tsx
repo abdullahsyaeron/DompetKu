@@ -145,7 +145,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
         <button
           type="button"
           onClick={handleOpenAddGoal}
-          className="apple-btn apple-btn-primary h-9 px-3.5 text-xs gap-1.5 active:scale-[0.98] self-start sm:self-auto"
+          className="apple-btn apple-btn-primary h-9 px-3.5 text-xs gap-1.5 apple-press self-start sm:self-auto"
         >
           <Plus className="h-4 w-4" />
           Target Baru
@@ -153,10 +153,10 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
       </div>
 
       {/* Hero Summary Card */}
-      <div className="apple-card p-6 space-y-4">
+      <div className="apple-card p-6 space-y-4 rounded-[20px]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)]">
+            <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
               <PiggyBank className="h-5 w-5" />
             </div>
             <div>
@@ -182,7 +182,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
           </div>
           <div className="flex justify-between font-tabular text-xs text-[var(--color-text-secondary)]">
             <span>Terkumpul: {mask(formatRupiah(totalSaved))}</span>
-            <span>Target Total: {mask(formatRupiah(totalTarget))}</span>
+            <span>Target Total: {formatRupiah(totalTarget)}</span>
           </div>
         </div>
       </div>
@@ -203,13 +203,13 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
             return (
               <div
                 key={g.id}
-                className="apple-card apple-card-hover p-5 space-y-4 rounded-[20px] flex flex-col justify-between"
+                className="apple-card apple-card-hover rounded-[20px] p-5 flex flex-col justify-between"
               >
                 <div className="space-y-4">
                   {/* Card Header */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="h-10 w-10 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
+                      <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
                         <Target className="h-5 w-5" />
                       </div>
                       <div className="min-w-0">
@@ -230,7 +230,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                       <button
                         type="button"
                         onClick={() => handleOpenEditGoal(g)}
-                        className="p-1.5 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+                        className="p-1.5 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors apple-press"
                         title="Ubah target"
                       >
                         <Edit2 className="h-3.5 w-3.5" />
@@ -242,7 +242,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                             onDeleteGoal(g.id);
                           }
                         }}
-                        className="p-1.5 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-danger-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+                        className="p-1.5 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-danger-text)] hover:bg-[var(--color-surface-2)] transition-colors apple-press"
                         title="Hapus target"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -257,7 +257,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                         {mask(formatRupiah(g.currentAmount))}
                       </span>
                       <span className="text-[var(--color-text-secondary)]">
-                        Target: {mask(formatRupiah(g.targetAmount))}
+                        Target: {formatRupiah(g.targetAmount)}
                       </span>
                     </div>
 
@@ -283,7 +283,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                   <button
                     type="button"
                     onClick={() => handleOpenDeposit(g)}
-                    className="apple-btn apple-btn-primary h-9 text-xs px-3 gap-1 active:scale-[0.98]"
+                    className="apple-btn apple-btn-primary h-9 text-xs px-3.5 gap-1 apple-press"
                   >
                     <Plus className="h-3.5 w-3.5" />
                     + Tabung
@@ -306,7 +306,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
               <button
                 type="button"
                 onClick={() => setIsGoalModalOpen(false)}
-                className="p-1.5 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+                className="p-1.5 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors apple-press"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -407,13 +407,13 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsGoalModalOpen(false)}
-                  className="apple-btn apple-btn-secondary flex-1 active:scale-[0.98]"
+                  className="apple-btn apple-btn-secondary flex-1 apple-press"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="apple-btn apple-btn-primary flex-1 active:scale-[0.98] gap-1.5"
+                  className="apple-btn apple-btn-primary flex-1 apple-press gap-1.5"
                 >
                   <Check className="h-4 w-4" />
                   Simpan Target
@@ -435,7 +435,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
               <button
                 type="button"
                 onClick={() => setIsDepositModalOpen(false)}
-                className="p-1.5 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+                className="p-1.5 rounded-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors apple-press"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -489,13 +489,13 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsDepositModalOpen(false)}
-                  className="apple-btn apple-btn-secondary flex-1 active:scale-[0.98]"
+                  className="apple-btn apple-btn-secondary flex-1 apple-press"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="apple-btn apple-btn-primary flex-1 active:scale-[0.98] gap-1.5"
+                  className="apple-btn apple-btn-primary flex-1 apple-press gap-1.5"
                 >
                   <Check className="h-4 w-4" />
                   Alokasikan

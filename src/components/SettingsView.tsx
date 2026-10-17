@@ -107,34 +107,38 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
   return (
     <div className="space-y-6 pb-36">
+      {/* View Header */}
       <div>
-        <h2 className="text-lg font-semibold text-[var(--color-text)]">Setelan Aplikasi</h2>
-        <p className="text-xs text-[var(--color-text-secondary)]">
-          Keamanan Master PIN, tema tampilan, cadangan data, dan sinkronisasi
+        <h2 className="text-xl font-semibold tracking-tight text-[var(--color-text)]">
+          Setelan
+        </h2>
+        <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+          Preferensi tema, keamanan PIN, sinkronisasi cloud, dan cadangan data
         </p>
       </div>
 
-      {/* 1. Theme Switcher */}
-      <div className="apple-card p-6 space-y-3">
-        <div className="flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
-            <Palette className="h-4 w-4" />
+      {/* Group 1: Tema Tampilan */}
+      <div className="apple-card p-5 sm:p-6 space-y-4 rounded-[20px]">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
+            <Palette className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-[var(--color-text)] flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-[var(--color-text)]">
               Tema Tampilan
             </h3>
-            <p className="text-[11px] text-[var(--color-text-secondary)]">
-              Pilih mode tampilan sesuai kenyamanan Anda
+            <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+              Pilih mode tampilan antarmuka aplikasi
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+        {/* Apple Segmented Control */}
+        <div className="p-1 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] grid grid-cols-1 sm:grid-cols-3 gap-1">
           {[
             { id: 'system', label: 'Otomatis Sistem', icon: Monitor },
-            { id: 'light', label: 'Terang (Light)', icon: Sun },
-            { id: 'dark', label: 'Gelap (Dark)', icon: Moon },
+            { id: 'light', label: 'Terang', icon: Sun },
+            { id: 'dark', label: 'Gelap', icon: Moon },
           ].map((item) => {
             const Icon = item.icon;
             const isActive = themeMode === item.id;
@@ -143,10 +147,10 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 key={item.id}
                 type="button"
                 onClick={() => onSetTheme(item.id as 'light' | 'dark' | 'system')}
-                className={`flex items-center justify-center gap-2 py-2.5 px-3 text-xs transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-2 py-2.5 px-3 text-xs transition-all apple-press cursor-pointer rounded-lg ${
                   isActive
-                    ? 'bg-[var(--color-primary)] text-white font-semibold rounded-[var(--radius-md)] shadow-sm'
-                    : 'bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] rounded-[var(--radius-md)] hover:text-[var(--color-text)]'
+                    ? 'bg-[var(--color-surface)] text-[var(--color-primary)] font-semibold shadow-sm border border-[var(--color-border-soft)]'
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] font-medium'
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -157,24 +161,31 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
       </div>
 
-      {/* 2. Master PIN */}
-      <div className="apple-card p-6 space-y-3.5">
-        <div className="flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
-            <KeyRound className="h-4 w-4" />
+      {/* Group 2: Master PIN */}
+      <div className="apple-card p-5 sm:p-6 space-y-4 rounded-[20px]">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
+              <KeyRound className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">
+                Master PIN
+              </h3>
+              <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+                Keamanan akses buka kunci aplikasi
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-sm font-semibold text-[var(--color-text)]">Ganti Master PIN</h3>
-            <p className="text-[11px] text-[var(--color-text-secondary)]">
-              PIN saat ini: <span className="font-mono text-[var(--color-text)]">{appData.pinHash}</span>
-            </p>
+          <div className="apple-badge bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] font-mono text-[11px]">
+            PIN: {appData.pinHash}
           </div>
         </div>
 
-        <form onSubmit={handleChangePin} className="space-y-3 pt-1">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <form onSubmit={handleChangePin} className="space-y-4 pt-1">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-[11px] font-medium text-[var(--color-text-secondary)] mb-1">
+              <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
                 PIN Lama
               </label>
               <input
@@ -182,14 +193,15 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 inputMode="numeric"
                 maxLength={6}
                 required
+                placeholder="••••••"
                 value={oldPin}
                 onChange={(e) => setOldPin(e.target.value)}
-                className="apple-input text-xs font-mono"
+                className="apple-input text-xs font-mono tracking-wider"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-medium text-[var(--color-text-secondary)] mb-1">
+              <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
                 PIN Baru (4-6 Digit)
               </label>
               <input
@@ -197,14 +209,15 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 inputMode="numeric"
                 maxLength={6}
                 required
+                placeholder="••••••"
                 value={newPin}
                 onChange={(e) => setNewPin(e.target.value)}
-                className="apple-input text-xs font-mono"
+                className="apple-input text-xs font-mono tracking-wider"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-medium text-[var(--color-text-secondary)] mb-1">
+              <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
                 Konfirmasi PIN
               </label>
               <input
@@ -212,50 +225,57 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 inputMode="numeric"
                 maxLength={6}
                 required
+                placeholder="••••••"
                 value={confirmPin}
                 onChange={(e) => setConfirmPin(e.target.value)}
-                className="apple-input text-xs font-mono"
+                className="apple-input text-xs font-mono tracking-wider"
               />
             </div>
           </div>
 
           {pinMessage && (
-            <p
-              className={`text-xs ${
-                pinMessage.error ? 'text-[var(--color-danger-text)]' : 'text-[var(--color-success-text)]'
+            <div
+              className={`text-xs p-3 rounded-xl border ${
+                pinMessage.error
+                  ? 'text-[var(--color-danger-text)] bg-[var(--color-danger-bg)] border-[var(--color-danger-text)]/20'
+                  : 'text-[var(--color-success-text)] bg-[var(--color-success-bg)] border-[var(--color-success-text)]/20'
               }`}
             >
               {pinMessage.text}
-            </p>
+            </div>
           )}
 
-          <button
-            type="submit"
-            className="apple-btn apple-btn-primary h-9 px-4 text-xs"
-          >
-            Simpan PIN Baru
-          </button>
+          <div>
+            <button
+              type="submit"
+              className="apple-btn apple-btn-primary h-9 px-4 text-xs apple-press"
+            >
+              Simpan PIN Baru
+            </button>
+          </div>
         </form>
       </div>
 
-      {/* 3. Cloud Supabase */}
-      <div className="apple-card p-6 space-y-3.5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="h-8 w-8 rounded-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
-              <Cloud className="h-4 w-4" />
+      {/* Group 3: Koneksi Database Cloud */}
+      <div className="apple-card p-5 sm:p-6 space-y-4 rounded-[20px]">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
+              <Cloud className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-[var(--color-text)]">Koneksi Database Cloud</h3>
-              <p className="text-[11px] text-[var(--color-text-secondary)]">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">
+                Koneksi Database Cloud
+              </h3>
+              <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
                 {isSupabaseConfigured
-                  ? 'Supabase aktif terhubung.'
-                  : 'Berjalan di penyimpanan lokal offline.'}
+                  ? 'Supabase aktif terhubung untuk sinkronisasi'
+                  : 'Berjalan di penyimpanan lokal offline'}
               </p>
             </div>
           </div>
           <span
-            className={`apple-badge text-[11px] ${
+            className={`apple-badge ${
               isSupabaseConfigured
                 ? 'apple-badge-success'
                 : 'bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)]'
@@ -265,33 +285,41 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           </span>
         </div>
 
-        <div className="p-3.5 rounded-[var(--radius-md)] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] space-y-2 text-xs text-[var(--color-text)]">
-          <p className="font-medium text-[var(--color-text)]">Integrasi Supabase Cloud:</p>
-          <ol className="list-decimal list-inside space-y-1 text-[var(--color-text-secondary)] text-[11px]">
+        <div className="p-4 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] space-y-2.5 text-xs text-[var(--color-text)]">
+          <p className="font-semibold text-[var(--color-text)]">Integrasi Supabase Cloud:</p>
+          <ol className="list-decimal list-inside space-y-1.5 text-[var(--color-text-secondary)] text-[11px] leading-relaxed">
             <li>Buat project di <strong className="text-[var(--color-text)]">supabase.com</strong>.</li>
-            <li>Salin URL & Anon Key ke file <code className="text-[var(--color-text)]">.env.local</code>.</li>
+            <li>Salin URL & Anon Key ke file <code className="text-[var(--color-text)] font-mono">.env.local</code>.</li>
             <li>Eksekusi skema SQL di SQL Editor Supabase untuk migrasi tabel.</li>
           </ol>
-          <button
-            type="button"
-            onClick={handleCopySql}
-            className="apple-btn apple-btn-secondary h-8 px-3 text-xs gap-1.5 cursor-pointer mt-1"
-          >
-            {copiedSql ? <Check className="h-3.5 w-3.5 text-[var(--color-success-text)]" /> : <Copy className="h-3.5 w-3.5" />}
-            {copiedSql ? 'Skema SQL Disalin' : 'Salin Skema SQL'}
-          </button>
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={handleCopySql}
+              className="apple-btn apple-btn-secondary h-8 px-3.5 text-xs gap-1.5 apple-press cursor-pointer"
+            >
+              {copiedSql ? (
+                <Check className="h-3.5 w-3.5 text-[var(--color-success-text)]" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+              {copiedSql ? 'Skema SQL Disalin' : 'Salin Skema SQL'}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* 4. Backup and Reset */}
-      <div className="apple-card p-6 space-y-3.5">
-        <div className="flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
-            <Database className="h-4 w-4" />
+      {/* Group 4: Cadangan & Reset Data */}
+      <div className="apple-card p-5 sm:p-6 space-y-4 rounded-[20px]">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
+            <Database className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-[var(--color-text)]">Cadangan & Reset Data</h3>
-            <p className="text-[11px] text-[var(--color-text-secondary)]">
+            <h3 className="text-sm font-semibold text-[var(--color-text)]">
+              Cadangan & Reset Data
+            </h3>
+            <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
               Ekspor file JSON atau kelola data aplikasi
             </p>
           </div>
@@ -301,13 +329,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           <button
             type="button"
             onClick={handleExportJson}
-            className="apple-btn apple-btn-secondary gap-2 text-xs cursor-pointer"
+            className="apple-btn apple-btn-secondary gap-2 text-xs apple-press cursor-pointer"
           >
             <Download className="h-4 w-4" />
             Cadangkan (Ekspor JSON)
           </button>
 
-          <label className="apple-btn apple-btn-secondary gap-2 text-xs cursor-pointer">
+          <label className="apple-btn apple-btn-secondary gap-2 text-xs apple-press cursor-pointer">
             <Upload className="h-4 w-4" />
             Pulihkan (Impor JSON)
             <input
@@ -325,7 +353,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 onResetDummyData();
               }
             }}
-            className="apple-btn apple-btn-secondary gap-2 text-xs cursor-pointer"
+            className="apple-btn apple-btn-secondary gap-2 text-xs apple-press cursor-pointer"
           >
             <RefreshCw className="h-4 w-4" />
             Muat Data Contoh Demo
@@ -338,7 +366,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 onResetEmptyData();
               }
             }}
-            className="apple-btn text-xs font-semibold gap-2 bg-[var(--color-danger-bg)] text-[var(--color-danger-text)] border border-[var(--color-danger-text)]/20 hover:bg-[var(--color-danger-bg)]/80 cursor-pointer"
+            className="apple-btn text-xs font-semibold gap-2 bg-[var(--color-danger-bg)] text-[var(--color-danger-text)] border border-[var(--color-danger-text)]/20 hover:bg-[var(--color-danger-bg)]/80 apple-press cursor-pointer"
           >
             <Trash2 className="h-4 w-4" />
             Kosongkan Seluruh Data
@@ -346,26 +374,28 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
       </div>
 
-      {/* 5. PWA Installation */}
-      <div className="apple-card p-6 space-y-2">
-        <div className="flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
-            <Smartphone className="h-4 w-4" />
+      {/* Group 5: Install di Layar Utama HP */}
+      <div className="apple-card p-5 sm:p-6 space-y-4 rounded-[20px]">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-[12px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
+            <Smartphone className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-[var(--color-text)]">Install di Layar Utama HP</h3>
-            <p className="text-[11px] text-[var(--color-text-secondary)]">
+            <h3 className="text-sm font-semibold text-[var(--color-text)]">
+              Install di Layar Utama HP
+            </h3>
+            <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
               Gunakan mode layar penuh layaknya aplikasi native
             </p>
           </div>
         </div>
 
-        <div className="text-[11px] text-[var(--color-text-secondary)] space-y-1.5 leading-relaxed pt-1">
+        <div className="p-4 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] text-xs text-[var(--color-text-secondary)] space-y-2 leading-relaxed">
           <p>
-            <strong className="text-[var(--color-text)]">Android</strong>: Buka menu Chrome (titik tiga) lalu pilih <span className="text-[var(--color-text)]">&quot;Install app&quot;</span> atau <span className="text-[var(--color-text)]">&quot;Tambahkan ke Layar Utama&quot;</span>.
+            <strong className="text-[var(--color-text)] font-semibold">Android</strong>: Buka menu Chrome (titik tiga) lalu pilih <span className="text-[var(--color-text)]">&quot;Install app&quot;</span> atau <span className="text-[var(--color-text)]">&quot;Tambahkan ke Layar Utama&quot;</span>.
           </p>
           <p>
-            <strong className="text-[var(--color-text)]">iOS</strong>: Buka menu Bagikan Safari (ikon kotak panah ke atas) lalu pilih <span className="text-[var(--color-text)]">&quot;Add to Home Screen&quot;</span>.
+            <strong className="text-[var(--color-text)] font-semibold">iOS</strong>: Buka menu Bagikan Safari (ikon kotak panah ke atas) lalu pilih <span className="text-[var(--color-text)]">&quot;Add to Home Screen&quot;</span>.
           </p>
         </div>
       </div>
