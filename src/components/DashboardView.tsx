@@ -55,7 +55,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const mask = (val: string) => (hideBalance ? 'Rp ••••••••' : val);
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-32">
       {/* 1. Main Net Asset Hero Card */}
       <div className="apple-card p-6">
         <div className="flex items-center justify-between">

@@ -11,8 +11,8 @@ test('resolveIsDark handles light, dark, and system modes correctly', () => {
   assert.equal(resolveIsDark('system', false), false);
 });
 
-test('getStoredTheme returns system in non-browser environment', () => {
-  assert.equal(getStoredTheme(), 'system');
+test('getStoredTheme returns light in non-browser environment', () => {
+  assert.equal(getStoredTheme(), 'light');
 });
 
 test('applyTheme returns false in non-browser environment', () => {

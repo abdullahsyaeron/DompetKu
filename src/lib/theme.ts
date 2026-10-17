@@ -7,11 +7,11 @@ export function resolveIsDark(mode: ThemeMode, systemPrefersDark: boolean): bool
 }
 
 export function getStoredTheme(): ThemeMode {
-  if (typeof window === 'undefined') return 'system';
+  if (typeof window === 'undefined') return 'light';
   try {
-    return (localStorage.getItem('finance_theme_mode') as ThemeMode) || 'system';
+    return (localStorage.getItem('finance_theme_mode') as ThemeMode) || 'light';
   } catch {
-    return 'system';
+    return 'light';
   }
 }
 

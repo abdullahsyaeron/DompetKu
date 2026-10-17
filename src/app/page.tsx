@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useSyncExternalStore } from 'react';
 import { AppData, QuickTemplate, Transaction, TransactionType, Wallet, Goal, Budget } from '@/types/finance';
 import {
   loadAppData,
@@ -26,7 +26,16 @@ import { SettingsView } from '@/components/SettingsView';
 import { TransactionModal } from '@/components/TransactionModal';
 import { CheckCircle2 } from 'lucide-react';
 
+function useMounted() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+}
+
 export default function Home() {
+  const mounted = useMounted();
   const [appData, setAppData] = useState<AppData | null>(() =>
     typeof window !== 'undefined' ? loadAppData() : null
   );
@@ -43,12 +52,12 @@ export default function Home() {
   const [modalInitialType, setModalInitialType] = useState<TransactionType>('expense');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [themeMode, setThemeMode] = useState<ThemeMode>(() =>
-    typeof window !== 'undefined' ? getStoredTheme() : 'system'
+    typeof window !== 'undefined' ? getStoredTheme() : 'light'
   );
 
   useEffect(() => {
-    const storedMode = getStoredTheme();
-    applyTheme(storedMode);
+    const stored = getStoredTheme();
+    applyTheme(stored);
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleSystemChange = () => {
@@ -88,9 +97,9 @@ export default function Home() {
     saveAppData(newData);
   };
 
-  if (!appData) {
+  if (!mounted || !appData) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-[var(--color-text-secondary)]">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)] text-[var(--color-text-secondary)]">
         <p className="text-xs font-mono animate-pulse">Memuat data keuangan...</p>
       </div>
     );
@@ -322,7 +331,7 @@ export default function Home() {
       )}
 
       {/* Main Content Area */}
-      <main className="max-w-3xl mx-auto px-4 py-6">
+      <main className="max-w-3xl mx-auto px-4 py-6 pb-36">
         {currentTab === 'dashboard' && (
           <DashboardView
             appData={appData}
