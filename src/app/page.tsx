@@ -387,7 +387,8 @@ export default function Home() {
             onResetDummyData={handleResetDummyData}
             onResetEmptyData={handleResetEmptyData}
             onImportData={handleImportData}
-            {...({ themeMode, onToggleTheme: handleToggleTheme, setThemeMode: handleSetTheme } as any)}
+            themeMode={themeMode}
+            onSetTheme={handleSetTheme}
           />
         )}
       </main>
