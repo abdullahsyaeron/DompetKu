@@ -28,19 +28,19 @@ export const Header: React.FC<HeaderProps> = ({
   );
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b apple-navbar">
-      <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-30 w-full border-b border-[var(--color-border-soft)] apple-navbar">
+      <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Brand Mark */}
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary)] font-bold flex items-center justify-center font-mono text-sm border border-[var(--color-border-soft)]">
-            <span className="tracking-tighter">DK</span>
+          <div className="h-9 w-9 rounded-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary)] border border-[var(--color-border-soft)] font-bold text-sm tracking-tighter flex items-center justify-center">
+            <span>DK</span>
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-sm font-semibold text-[var(--color-text)] tracking-tight leading-none">
                 DompetKu
               </h1>
-              <span className="apple-badge text-[10px] py-0.5 px-2 bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)]">
+              <span className="text-[10px] font-medium py-0.5 px-2 bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] rounded-full">
                 Personal
               </span>
             </div>
@@ -56,7 +56,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={onOpenSettings}
-            className="hidden sm:flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-[var(--radius-sm)] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+            className="apple-press hidden sm:flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
             title="Pengaturan penyimpanan data"
           >
             {isSupabaseConfigured ? (
@@ -76,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={onToggleHideBalance}
-            className="h-8 w-8 rounded-[var(--radius-sm)] bg-[var(--color-surface-2)] hover:bg-[var(--color-border-soft)] active:scale-95 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] flex items-center justify-center transition-all border border-[var(--color-border-soft)]"
+            className="apple-press h-8 w-8 rounded-[10px] bg-[var(--color-surface-2)] hover:bg-[var(--color-border-soft)] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] flex items-center justify-center border border-[var(--color-border-soft)]"
             title={hideBalance ? 'Tampilkan Saldo' : 'Sembunyikan Saldo'}
             aria-label={hideBalance ? 'Tampilkan Saldo' : 'Sembunyikan Saldo'}
           >
@@ -88,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={onToggleTheme}
-              className="h-8 w-8 rounded-[var(--radius-sm)] bg-[var(--color-surface-2)] hover:bg-[var(--color-border-soft)] active:scale-95 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] flex items-center justify-center transition-all border border-[var(--color-border-soft)]"
+              className="apple-press h-8 w-8 rounded-[10px] bg-[var(--color-surface-2)] hover:bg-[var(--color-border-soft)] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] flex items-center justify-center border border-[var(--color-border-soft)]"
               title={isDark ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'}
               aria-label={isDark ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'}
             >
@@ -100,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={onLockApp}
-            className="h-8 w-8 rounded-[var(--radius-sm)] bg-[var(--color-surface-2)] hover:bg-[var(--color-border-soft)] active:scale-95 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] flex items-center justify-center transition-all border border-[var(--color-border-soft)]"
+            className="apple-press h-8 w-8 rounded-[10px] bg-[var(--color-surface-2)] hover:bg-[var(--color-border-soft)] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] flex items-center justify-center border border-[var(--color-border-soft)]"
             title="Kunci Aplikasi"
             aria-label="Kunci Aplikasi"
           >

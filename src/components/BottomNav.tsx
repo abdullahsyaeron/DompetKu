@@ -18,7 +18,7 @@ export type TabKey =
   | 'goals'
   | 'settings';
 
-interface BottomNavProps {
+export interface BottomNavProps {
   currentTab: TabKey;
   onSelectTab: (tab: TabKey) => void;
 }
@@ -37,7 +37,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 apple-navbar border-t pb-safe shadow-lg">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 apple-navbar border-t border-[var(--color-border-soft)] pb-safe">
       <div className="max-w-xl mx-auto px-3 flex items-center justify-around h-16 relative">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -47,14 +47,10 @@ export const BottomNav: React.FC<BottomNavProps> = ({
               key={item.key}
               type="button"
               onClick={() => onSelectTab(item.key)}
-              className={`flex flex-col items-center justify-center flex-1 py-1 transition-all ${
-                isActive
-                  ? 'text-[var(--color-primary)] font-semibold'
-                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] font-normal'
-              }`}
+              className="apple-press flex flex-col items-center justify-center flex-1 py-1"
             >
               <div
-                className={`p-1 rounded-[8px] transition-colors ${
+                className={`p-1.5 rounded-[10px] transition-colors ${
                   isActive
                     ? 'bg-[var(--color-primary-soft)] text-[var(--color-primary)]'
                     : 'bg-transparent text-[var(--color-text-secondary)]'
@@ -62,7 +58,15 @@ export const BottomNav: React.FC<BottomNavProps> = ({
               >
                 <Icon className={`h-4 w-4 ${isActive ? 'stroke-[2.2]' : 'stroke-2'}`} />
               </div>
-              <span className="text-[10px] mt-1 tracking-tight">{item.label}</span>
+              <span
+                className={`text-[10px] mt-1 tracking-tight ${
+                  isActive
+                    ? 'text-[var(--color-primary)] font-bold'
+                    : 'text-[var(--color-text-secondary)] font-normal'
+                }`}
+              >
+                {item.label}
+              </span>
             </button>
           );
         })}
