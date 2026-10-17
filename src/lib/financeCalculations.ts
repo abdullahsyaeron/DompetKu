@@ -185,7 +185,7 @@ export interface CycleFinancialSummary {
   expense: number;
   net: number;
   savingsRate: number;
-  status: 'surplus' | 'warning' | 'deficit';
+  status: 'surplus' | 'warning' | 'deficit' | 'neutral';
   statusLabel: string;
   statusColor: string;
 }
@@ -225,18 +225,13 @@ export function getBillingCycleRange(
   const effectiveStartDay = Math.min(safeStartDay, daysInStartMonth);
   const startDate = new Date(resolvedStartYear, resolvedStartMonth, effectiveStartDay, 0, 0, 0, 0);
 
-  let endDate: Date;
-  if (safeStartDay === 1) {
-    endDate = new Date(resolvedStartYear, resolvedStartMonth + 1, 0, 23, 59, 59, 999);
-  } else {
-    const tempEndDate = new Date(resolvedStartYear, resolvedStartMonth + 1, 1);
-    const resolvedEndYear = tempEndDate.getFullYear();
-    const resolvedEndMonth = tempEndDate.getMonth();
-    const daysInEndMonth = new Date(resolvedEndYear, resolvedEndMonth + 1, 0).getDate();
-    const targetEndDay = safeStartDay - 1;
-    const effectiveEndDay = Math.min(targetEndDay, daysInEndMonth);
-    endDate = new Date(resolvedEndYear, resolvedEndMonth, effectiveEndDay, 23, 59, 59, 999);
-  }
+  const nextTempDate = new Date(resolvedStartYear, resolvedStartMonth + 1, 1);
+  const nextYear = nextTempDate.getFullYear();
+  const nextMonth = nextTempDate.getMonth();
+  const daysInNextMonth = new Date(nextYear, nextMonth + 1, 0).getDate();
+  const nextEffectiveStartDay = Math.min(safeStartDay, daysInNextMonth);
+  const nextCycleStartDate = new Date(nextYear, nextMonth, nextEffectiveStartDay, 0, 0, 0, 0);
+  const endDate = new Date(nextCycleStartDate.getTime() - 1);
 
   const sDay = startDate.getDate();
   const sMonth = MONTH_NAMES_SHORT[startDate.getMonth()];
@@ -285,11 +280,15 @@ export function calculateCycleCashflow<T extends { type: string; amount: number;
   const net = income - expense;
   const savingsRate = income > 0 ? Math.round((net / income) * 100) : 0;
 
-  let status: 'surplus' | 'warning' | 'deficit';
+  let status: 'surplus' | 'warning' | 'deficit' | 'neutral';
   let statusLabel: string;
   let statusColor: string;
 
-  if (net < 0) {
+  if (income === 0 && expense === 0) {
+    status = 'neutral';
+    statusLabel = 'Belum Ada Transaksi';
+    statusColor = 'var(--color-text-secondary)';
+  } else if (net < 0) {
     status = 'deficit';
     statusLabel = 'Defisit';
     statusColor = 'var(--color-danger-text)';

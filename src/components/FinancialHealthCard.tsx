@@ -112,6 +112,11 @@ export const FinancialHealthCard: React.FC<FinancialHealthCardProps> = ({
               <span>Defisit ({Math.round(summary.savingsRate)}%)</span>
             </span>
           )}
+          {summary.status === 'neutral' && (
+            <span className="apple-badge bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] flex items-center gap-1 w-fit">
+              <span>{summary.statusLabel}</span>
+            </span>
+          )}
         </div>
 
         <div className="grid grid-cols-3 gap-2.5 sm:gap-3 p-3 rounded-[16px] bg-[var(--color-surface-2)] border border-[var(--color-border-soft)]">
@@ -168,7 +173,7 @@ export const FinancialHealthCard: React.FC<FinancialHealthCardProps> = ({
                     ? 'bg-[var(--color-surface-2)] ring-2 ring-[var(--color-primary)] shadow-sm'
                     : 'hover:bg-[var(--color-surface-2)]/60'
                 }`}
-                title={`${h.range.label}\nPemasukan: ${formatRupiah(h.summary.income)}\nPengeluaran: ${formatRupiah(h.summary.expense)}\nTabungan: ${formatRupiah(h.summary.net)}`}
+                title={`${h.range.label}\nPemasukan: ${formatRupiah(h.summary.income)}\nPengeluaran: ${formatRupiah(h.summary.expense)}\nTabungan: ${maskBalance(formatRupiah(h.summary.net), hideBalance)}`}
               >
                 <div className="w-full h-20 flex items-end justify-center gap-1 sm:gap-1.5">
                   {/* Income Bar */}

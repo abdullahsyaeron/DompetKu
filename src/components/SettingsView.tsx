@@ -48,6 +48,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   const [cycleStartDay, setCycleStartDay] = useState<number>(() => appData.billingCycleStartDay || 1);
   const [cycleSaved, setCycleSaved] = useState(false);
 
+  const [prevCycleStartDay, setPrevCycleStartDay] = useState(appData.billingCycleStartDay || 1);
+  if ((appData.billingCycleStartDay || 1) !== prevCycleStartDay) {
+    setPrevCycleStartDay(appData.billingCycleStartDay || 1);
+    setCycleStartDay(appData.billingCycleStartDay || 1);
+  }
+
   const [copiedSql, setCopiedSql] = useState(false);
 
   const isPinSet = Boolean(appData.pinHash);

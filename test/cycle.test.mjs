@@ -56,6 +56,16 @@ test('calculateCycleCashflow categorizes surplus, warning, and deficit correctly
   assert.strictEqual(summarySurplus.status, 'surplus');
   assert.strictEqual(summarySurplus.savingsRate, 40);
 
+  // Warning test (savings rate < 20% and net >= 0)
+  const txWarning = [
+    { type: 'income', amount: 10000000, date: '2026-10-05T10:00:00Z' },
+    { type: 'expense', amount: 9000000, date: '2026-10-10T10:00:00Z' },
+  ];
+  const summaryWarning = calculateCycleCashflow(txWarning, cycle);
+  assert.strictEqual(summaryWarning.status, 'warning');
+  assert.strictEqual(summaryWarning.savingsRate, 10);
+  assert.strictEqual(summaryWarning.statusLabel, 'Waspada');
+
   // Deficit test (net < 0)
   const txDeficit = [
     { type: 'income', amount: 5000000, date: '2026-10-05T10:00:00Z' },
@@ -64,6 +74,20 @@ test('calculateCycleCashflow categorizes surplus, warning, and deficit correctly
   const summaryDeficit = calculateCycleCashflow(txDeficit, cycle);
   assert.strictEqual(summaryDeficit.status, 'deficit');
   assert.strictEqual(summaryDeficit.net, -2000000);
+
+  // Neutral test (zero transactions: income === 0 && expense === 0)
+  const txNeutral = [];
+  const summaryNeutral = calculateCycleCashflow(txNeutral, cycle);
+  assert.strictEqual(summaryNeutral.status, 'neutral');
+  assert.strictEqual(summaryNeutral.statusLabel, 'Belum Ada Transaksi');
+});
+
+test('getBillingCycleRange ensures contiguous cycle dates across short months (February)', () => {
+  const ref = new Date('2026-01-31T10:00:00Z');
+  const cycleJan = getBillingCycleRange(ref, 31, 0);
+  const cycleFeb = getBillingCycleRange(ref, 31, 1);
+
+  assert.strictEqual(cycleJan.endDate.getTime(), cycleFeb.startDate.getTime() - 1);
 });
 
 test('getHistoricalCyclesCashflow returns exactly requested count of cycles', () => {
