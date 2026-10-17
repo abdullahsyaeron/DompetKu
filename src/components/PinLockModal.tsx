@@ -43,7 +43,7 @@ export const PinLockModal: React.FC<PinLockModalProps> = ({ correctPin, onUnlock
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
       <div className="apple-card max-w-xs w-full p-6 text-center rounded-[20px]">
         <div className="h-12 w-12 rounded-[14px] bg-[var(--color-primary-soft)] text-[var(--color-primary)] mx-auto flex items-center justify-center mb-3">
           <Lock className="h-5 w-5" />

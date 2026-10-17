@@ -131,7 +131,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
   };
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-36">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
@@ -297,7 +297,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
 
       {/* Modal Add / Edit Goal */}
       {isGoalModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="apple-card max-w-md w-full p-6 space-y-4 rounded-[20px] shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-[var(--color-border-soft)]">
               <h3 className="text-base font-semibold text-[var(--color-text)]">
@@ -332,27 +332,37 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                   <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
                     Target Nominal (Rp)
                   </label>
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    required
-                    value={targetAmountStr}
-                    onChange={(e) => setTargetAmountStr(e.target.value)}
-                    className="apple-input font-tabular"
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-[var(--color-text-secondary)] pointer-events-none">
+                      Rp
+                    </span>
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      required
+                      value={targetAmountStr}
+                      onChange={(e) => setTargetAmountStr(e.target.value)}
+                      className="apple-input !pl-10 font-tabular"
+                    />
+                  </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
                     Saldo Awal (Rp)
                   </label>
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    value={currentAmountStr}
-                    onChange={(e) => setCurrentAmountStr(e.target.value)}
-                    className="apple-input font-tabular"
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-[var(--color-text-secondary)] pointer-events-none">
+                      Rp
+                    </span>
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      value={currentAmountStr}
+                      onChange={(e) => setCurrentAmountStr(e.target.value)}
+                      className="apple-input !pl-10 font-tabular"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -416,7 +426,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
 
       {/* Modal Setor Tabungan */}
       {isDepositModalOpen && selectedGoalForDeposit && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="apple-card max-w-md w-full p-6 space-y-4 rounded-[20px] shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-[var(--color-border-soft)]">
               <h3 className="text-base font-semibold text-[var(--color-text)]">
@@ -453,15 +463,20 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                 <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
                   Nominal Setoran (Rp)
                 </label>
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  required
-                  placeholder="Contoh: 500000"
-                  value={depositAmountStr}
-                  onChange={(e) => setDepositAmountStr(e.target.value)}
-                  className="apple-input font-tabular"
-                />
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-[var(--color-text-secondary)] pointer-events-none">
+                    Rp
+                  </span>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    required
+                    placeholder="Contoh: 500000"
+                    value={depositAmountStr}
+                    onChange={(e) => setDepositAmountStr(e.target.value)}
+                    className="apple-input !pl-10 font-tabular"
+                  />
+                </div>
               </div>
 
               {depositErrorMsg && (

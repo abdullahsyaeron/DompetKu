@@ -106,7 +106,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   };
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-36">
       <div>
         <h2 className="text-lg font-semibold text-[var(--color-text)]">Setelan Aplikasi</h2>
         <p className="text-xs text-[var(--color-text-secondary)]">

@@ -81,7 +81,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="apple-card max-w-lg w-full p-6 space-y-4 rounded-[20px] max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between pb-3 border-b border-[var(--color-border-soft)]">
           <h2 className="text-sm font-semibold text-[var(--color-text)]">Catat Transaksi</h2>

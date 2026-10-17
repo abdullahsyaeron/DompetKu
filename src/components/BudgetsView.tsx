@@ -94,7 +94,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
   };
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-36">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
@@ -214,15 +214,15 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
               >
                 <div>
                   <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2.5">
-                      <div className="h-8 w-8 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-xs font-semibold text-[var(--color-text)]">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="h-8 w-8 rounded-lg bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-xs font-semibold text-[var(--color-text)] shrink-0">
                         {cat.name.slice(0, 1)}
                       </div>
-                      <div>
-                        <h4 className="text-sm font-semibold text-[var(--color-text)]">
+                      <div className="min-w-0">
+                        <h4 className="text-sm font-semibold text-[var(--color-text)] truncate">
                           {cat.name}
                         </h4>
-                        <p className="font-tabular text-xs text-[var(--color-text-secondary)] mt-0.5">
+                        <p className="font-tabular text-xs text-[var(--color-text-secondary)] mt-0.5 truncate">
                           {limit > 0 ? (
                             <>
                               Terpakai {mask(formatRupiah(spent))} / {mask(formatRupiah(limit))}
@@ -234,7 +234,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 shrink-0">
                       {limit > 0 ? (
                         <>
                           <span className={badgeClass}>
@@ -308,7 +308,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
 
       {/* Modal Set Budget */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="apple-card max-w-md w-full p-6 space-y-4 rounded-[20px] shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-[var(--color-border-soft)]">
               <h3 className="text-base font-semibold text-[var(--color-text)]">
@@ -345,15 +345,20 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                 <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
                   Batas Bulanan (Rp)
                 </label>
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  required
-                  placeholder="Contoh: 1500000"
-                  value={limitStr}
-                  onChange={(e) => setLimitStr(e.target.value)}
-                  className="apple-input font-tabular"
-                />
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-[var(--color-text-secondary)] pointer-events-none">
+                    Rp
+                  </span>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    required
+                    placeholder="1500000"
+                    value={limitStr}
+                    onChange={(e) => setLimitStr(e.target.value)}
+                    className="apple-input !pl-10 font-tabular"
+                  />
+                </div>
               </div>
 
               {errorMsg && (

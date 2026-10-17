@@ -4,9 +4,9 @@
   --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
 
   /* Primary Palette */
-  --color-primary: #007AFF;
-  --color-primary-hover: #006EE6;
-  --color-primary-soft: #EAF3FF;
+  --color-primary: #0071E3;
+  --color-primary-hover: #0077ED;
+  --color-primary-soft: #EBF4FF;
   --color-primary-muted: #D6E9FF;
 
   /* Surfaces & Canvas */
@@ -17,7 +17,7 @@
   /* Text & Border */
   --color-text: #1D1D1F;
   --color-text-secondary: #6E6E73;
-  --color-text-tertiary: #8E8E93;
+  --color-text-tertiary: #86868B;
   --color-border: #D2D2D7;
   --color-border-soft: #E5E5EA;
 
@@ -28,42 +28,42 @@
   --color-warning-text: #8A5A00;
   --color-danger-bg: #FFE8E6;
   --color-danger-text: #B42318;
-  --color-info-bg: #EAF3FF;
-  --color-info-text: #005BB5;
+  --color-info-bg: #EBF4FF;
+  --color-info-text: #0071E3;
 
   /* Radii */
-  --radius-sm: 10px;
-  --radius-md: 14px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
   --radius-lg: 18px;
-  --radius-pill: 999px;
+  --radius-pill: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.07);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.06);
 
   /* Solid Navbars (Clean, Reliable, Non-murky) */
   --nav-bg: #FFFFFF;
   --nav-border: #E5E5EA;
 
   /* Transitions */
-  --ease-apple: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
   --transition-fast: 160ms var(--ease-apple);
 }
 
 [data-theme="dark"] {
-  --color-primary: #0A84FF;
-  --color-primary-hover: #409CFF;
-  --color-primary-soft: rgba(10, 132, 255, 0.18);
-  --color-primary-muted: rgba(10, 132, 255, 0.28);
+  --color-primary: #2997FF;
+  --color-primary-hover: #47A5FF;
+  --color-primary-soft: rgba(41, 151, 255, 0.16);
+  --color-primary-muted: rgba(41, 151, 255, 0.26);
 
-  --color-bg: #090A0F;
-  --color-surface: #141620;
-  --color-surface-2: #1D1F2D;
+  --color-bg: #000000;
+  --color-surface: #1C1C1E;
+  --color-surface-2: #2C2C2E;
 
   --color-text: #F5F5F7;
-  --color-text-secondary: #9DA0AE;
-  --color-text-tertiary: #6E7182;
-  --color-border: #2C2F40;
+  --color-text-secondary: #A1A1A6;
+  --color-text-tertiary: #6E6E73;
+  --color-border: #38383A;
   --color-border-soft: rgba(255, 255, 255, 0.12);
 
   --color-success-bg: rgba(48, 209, 88, 0.16);
@@ -72,13 +72,13 @@
   --color-warning-text: #FFD60A;
   --color-danger-bg: rgba(255, 69, 58, 0.16);
   --color-danger-text: #FF453A;
-  --color-info-bg: rgba(10, 132, 255, 0.16);
+  --color-info-bg: rgba(41, 151, 255, 0.16);
   --color-info-text: #64D2FF;
 
-  --shadow-sm: 0 3px 12px rgba(0, 0, 0, 0.45);
-  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.55);
 
-  --nav-bg: #141620;
+  --nav-bg: #1C1C1E;
   --nav-border: rgba(255, 255, 255, 0.12);
 }
 
@@ -156,7 +156,8 @@ h1, h2, h3, h4, h5, h6 {
 .apple-input {
   width: 100%;
   height: 42px;
-  padding: 0 14px;
+  padding-left: 14px;
+  padding-right: 14px;
   font-size: 14px;
   font-family: var(--font-system);
   color: var(--color-text);
@@ -169,7 +170,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .apple-input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
 }
 
 .apple-badge {

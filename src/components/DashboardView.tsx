@@ -55,7 +55,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const mask = (val: string) => (hideBalance ? 'Rp ••••••••' : val);
 
   return (
-    <div className="space-y-6 pb-32">
+    <div className="space-y-6 pb-36">
       {/* 1. Main Net Asset Hero Card */}
       <div className="apple-card p-6">
         <div className="flex items-center justify-between">
@@ -301,11 +301,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               return (
                 <div
                   key={tx.id}
-                  className="flex items-center justify-between p-3.5 hover:bg-[var(--color-surface-2)] transition-colors"
+                  className="flex items-center justify-between p-3.5 hover:bg-[var(--color-surface-2)] transition-colors gap-3"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
                     <div
-                      className={`h-9 w-9 rounded-[10px] flex items-center justify-center font-tabular text-xs ${
+                      className={`h-9 w-9 rounded-[10px] flex items-center justify-center font-tabular text-xs shrink-0 ${
                         tx.type === 'expense'
                           ? 'bg-[var(--color-danger-bg)] text-[var(--color-danger-text)]'
                           : tx.type === 'income'
@@ -321,20 +321,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                         <ArrowLeftRight className="h-4 w-4" />
                       )}
                     </div>
-                    <div>
-                      <p className="text-xs font-medium text-[var(--color-text)]">
+                    <div className="min-w-0">
+                      <p className="text-xs font-medium text-[var(--color-text)] truncate">
                         {tx.type === 'transfer'
                           ? `Transfer ke ${toWallet?.name || 'Dompet'}`
                           : category?.name || 'Transaksi'}
                       </p>
-                      <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)] mt-0.5">
-                        <span>{wallet?.name || 'Dompet'}</span>
-                        <span>/</span>
-                        <span>{formatDateID(tx.date)}</span>
+                      <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-secondary)] mt-0.5 truncate">
+                        <span className="shrink-0">{wallet?.name || 'Dompet'}</span>
+                        <span className="shrink-0">/</span>
+                        <span className="shrink-0">{formatDateID(tx.date)}</span>
                         {tx.notes && (
                           <>
-                            <span>/</span>
-                            <span className="text-[var(--color-text-secondary)] truncate max-w-[120px]">
+                            <span className="shrink-0">/</span>
+                            <span className="text-[var(--color-text-secondary)] truncate">
                               {tx.notes}
                             </span>
                           </>
@@ -343,7 +343,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     </div>
                   </div>
 
-                  <div className="text-right">
+                  <div className="text-right shrink-0">
                     <p
                       className={`text-xs font-semibold font-tabular ${
                         tx.type === 'expense'

@@ -97,7 +97,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
   };
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-36">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
@@ -162,12 +162,12 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
               className="apple-card apple-card-hover p-5 flex flex-col justify-between min-h-[160px]"
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-text)]">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="h-10 w-10 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border-soft)] flex items-center justify-center text-[var(--color-text)] shrink-0">
                     <IconComp className="h-5 w-5" />
                   </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-[var(--color-text)] leading-tight">
+                  <div className="min-w-0">
+                    <h4 className="text-sm font-semibold text-[var(--color-text)] leading-tight truncate">
                       {w.name}
                     </h4>
                     <span className="apple-badge text-[10px] bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] border border-[var(--color-border-soft)] mt-1">
@@ -176,7 +176,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 shrink-0">
                   <button
                     type="button"
                     onClick={() => handleOpenEdit(w)}
@@ -226,7 +226,7 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
 
       {/* Modal Add / Edit Wallet */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="apple-card max-w-md w-full p-6 space-y-4 rounded-[20px] shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-[var(--color-border-soft)]">
               <h3 className="text-base font-semibold text-[var(--color-text)]">
@@ -290,14 +290,19 @@ export const WalletsView: React.FC<WalletsViewProps> = ({
                 <label className="block text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
                   Saldo Saat Ini (Rp)
                 </label>
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  required
-                  value={balanceStr}
-                  onChange={(e) => setBalanceStr(e.target.value)}
-                  className="apple-input font-tabular"
-                />
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-[var(--color-text-secondary)] pointer-events-none">
+                    Rp
+                  </span>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    required
+                    value={balanceStr}
+                    onChange={(e) => setBalanceStr(e.target.value)}
+                    className="apple-input !pl-10 font-tabular"
+                  />
+                </div>
               </div>
 
               <div className="pt-2 flex gap-3">
