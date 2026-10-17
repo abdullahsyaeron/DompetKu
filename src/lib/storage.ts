@@ -1,4 +1,4 @@
-import { AppData, Transaction, Wallet, Goal, Budget } from '@/types/finance';
+import { AppData } from '@/types/finance';
 import { initialDummyData, emptyData } from './initialData';
 
 const STORAGE_KEY = 'quirky_finance_app_data';

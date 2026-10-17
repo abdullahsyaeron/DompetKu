@@ -27,24 +27,27 @@ import { TransactionModal } from '@/components/TransactionModal';
 import { CheckCircle2 } from 'lucide-react';
 
 export default function Home() {
-  const [appData, setAppData] = useState<AppData | null>(null);
-  const [isLocked, setIsLocked] = useState<boolean>(true);
+  const [appData, setAppData] = useState<AppData | null>(() =>
+    typeof window !== 'undefined' ? loadAppData() : null
+  );
+  const [isLocked, setIsLocked] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const data = loadAppData();
+      return Boolean(data.isPinEnabled);
+    }
+    return true;
+  });
   const [hideBalance, setHideBalance] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<TabKey>('dashboard');
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [modalInitialType, setModalInitialType] = useState<TransactionType>('expense');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [themeMode, setThemeMode] = useState<ThemeMode>('system');
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() =>
+    typeof window !== 'undefined' ? getStoredTheme() : 'system'
+  );
 
   useEffect(() => {
-    const data = loadAppData();
-    setAppData(data);
-    if (!data.isPinEnabled) {
-      setIsLocked(false);
-    }
-
     const storedMode = getStoredTheme();
-    setThemeMode(storedMode);
     applyTheme(storedMode);
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -107,7 +110,7 @@ export default function Home() {
 
     const updatedWallets = applyTransactionToWallets(appData.wallets, txData);
 
-    let updatedTemplates = [...appData.templates];
+    const updatedTemplates = [...appData.templates];
     if (saveAsTemplate) {
       const newTemplate: QuickTemplate = {
         id: `tmpl-${Date.now()}`,
@@ -397,10 +400,6 @@ export default function Home() {
       <BottomNav
         currentTab={currentTab}
         onSelectTab={(tab) => setCurrentTab(tab)}
-        onOpenQuickAdd={() => {
-          setModalInitialType('expense');
-          setIsAddModalOpen(true);
-        }}
       />
 
       {/* Transaction Modal */}

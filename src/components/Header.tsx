@@ -3,6 +3,7 @@
 import React from 'react';
 import { Eye, EyeOff, Lock, Cloud, HardDrive, Sun, Moon } from 'lucide-react';
 import { isSupabaseConfigured } from '@/lib/supabase';
+import { resolveIsDark } from '@/lib/theme';
 
 export interface HeaderProps {
   hideBalance: boolean;
@@ -21,6 +22,11 @@ export const Header: React.FC<HeaderProps> = ({
   themeMode,
   onToggleTheme,
 }) => {
+  const isDark = resolveIsDark(
+    themeMode || 'system',
+    typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
+
   return (
     <header className="sticky top-0 z-30 w-full border-b topbar-glass">
       <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -83,10 +89,10 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={onToggleTheme}
               className="h-8 w-8 rounded-[var(--radius-sm)] bg-[var(--color-surface-2)] hover:bg-[var(--color-border-soft)] active:scale-95 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] flex items-center justify-center transition-all border border-[var(--color-border-soft)]"
-              title={themeMode === 'dark' ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'}
-              aria-label={themeMode === 'dark' ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'}
+              title={isDark ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'}
+              aria-label={isDark ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'}
             >
-              {themeMode === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
           )}
 

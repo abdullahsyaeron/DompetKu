@@ -21,7 +21,6 @@ export type TabKey =
 interface BottomNavProps {
   currentTab: TabKey;
   onSelectTab: (tab: TabKey) => void;
-  onOpenQuickAdd: () => void;
 }
 
 export const BottomNav: React.FC<BottomNavProps> = ({

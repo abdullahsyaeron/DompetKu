@@ -57,8 +57,8 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
       setErrorMsg('Masukkan nominal transaksi yang valid.');
       return;
     }
-    if (type === 'transfer' && walletId === toWalletId) {
-      setErrorMsg('Dompet asal dan tujuan transfer tidak boleh sama.');
+    if (type === 'transfer' && (!toWalletId || walletId === toWalletId)) {
+      setErrorMsg('Pilih dompet tujuan transfer yang berbeda dan valid.');
       return;
     }
 
