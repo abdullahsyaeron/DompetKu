@@ -306,7 +306,8 @@ export default function Home() {
         onToggleHideBalance={() => setHideBalance(!hideBalance)}
         onLockApp={() => setIsLocked(true)}
         onOpenSettings={() => setCurrentTab('settings')}
-        {...({ themeMode, onToggleTheme: handleToggleTheme } as any)}
+        themeMode={themeMode}
+        onToggleTheme={handleToggleTheme}
       />
 
       {/* Sleek Minimal Toast */}
