@@ -16,6 +16,7 @@ import { AppData, QuickTemplate } from '@/types/finance';
 import { formatRupiah, formatDateID } from '@/lib/storage';
 import { calculateMonthlyCashflow, calculateBudgetUsage, maskBalance } from '@/lib/financeCalculations';
 import { TabKey } from './BottomNav';
+import { FinancialHealthCard } from './FinancialHealthCard';
 
 interface DashboardViewProps {
   appData: AppData;
@@ -139,6 +140,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <span className="truncate">Transfer</span>
         </button>
       </div>
+
+      {/* Financial Health & Cycle Comparison Card */}
+      <FinancialHealthCard
+        transactions={appData.transactions}
+        billingCycleStartDay={appData.billingCycleStartDay}
+        hideBalance={hideBalance}
+      />
 
       {/* 3. Quick Templates Carousel (1-Tap Fast Logging) */}
       {appData.templates.length > 0 && (
