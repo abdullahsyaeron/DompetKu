@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Perencana & Pelacak Keuangan",
-  description: "Aplikasi perancangan rencana keuangan pribadi dan pemantauan cashflow dengan standar LabSpace.",
+  title: "DompetKu - Rencana & Pantau Keuangan",
+  description: "Aplikasi perencanaan anggaran, pemantauan arus kas harian, dan target tabungan pribadi dengan standar Apple HIG.",
   manifest: "/manifest.json",
   icons: {
     icon: "/favicon.svg",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Finance Plan",
+    title: "DompetKu",
   },
 };
 

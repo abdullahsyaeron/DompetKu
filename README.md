@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DompetKu — Personal Finance & Cashflow Planner
 
-## Getting Started
+Aplikasi perencanaan keuangan pribadi, alokasi anggaran (*zero-based budgeting*), pelacakan transaksi multi-dompet, dan target tabungan dengan desain elegan berbasis **Apple Human Interface Guidelines (HIG)** (iOS 17/18 & macOS Sequoia).
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Fitur Utama
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Apple HIG Design & Typography**: Menggunakan sistem layout Inset-Grouped, kartu Titanium satin sheen, hairline borders 1px, angka tabular, dan tipografi disiplin **Helvetica**.
+- **Dual-Theme Support**: Tema Light (`#F5F5F7`) dan True Black Dark (`#000000`/`#1C1C1E`) yang tersinkronisasi otomatis dengan preferensi sistem macOS/iOS.
+- **Privacy Mode (Sensor Saldo)**: Fitur privasi cerdas yang hanya menyensor nilai saldo akun dan total kekayaan (`Rp ••••••••`), sementara catatan transaksi operasional dan limit anggaran tetap terbaca di ruang publik.
+- **Multi-Wallet & Rekening**: Kelola dompet kas tunai, rekening bank (BCA, Mandiri, dll.), hingga e-wallet dengan kartu bertumpuk ala Apple Wallet.
+- **Transaksi Terkelompok Tanggal**: Daftar transaksi dengan pengelompokan tanggal otomatis (*Hari Ini*, *Kemarin*, *Bulan/Tahun*), kontrol segmen (*Semua / Pengeluaran / Pemasukan / Transfer*), dan pencarian instan.
+- **Anggaran & Target Finansial**: Pemantauan kuota pengeluaran dinamis per kategori (*Aman*, *Waspada*, *Melebihi Batas*) dan tabungan tujuan dengan persentase progres.
+- **Keamanan PIN & Biometrik**: Kunci akses PIN 4-6 digit dengan layar keypad Apple Passcode.
+- **Offline-First & Cloud Ready**: Berjalan 100% lokal di browser menggunakan `localStorage`, ekspor/impor cadangan JSON, serta dukungan integrasi Supabase Database Cloud.
+- **Progressive Web App (PWA)**: Dapat diinstal langsung ke Layar Utama (*Home Screen*) Android dan iOS layaknya aplikasi native.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Teknologi
 
-## Learn More
+- **Framework**: [Next.js](https://nextjs.org/) (App Router & Turbopack)
+- **Bahasa**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & CSS Custom Properties
+- **Ikon**: [Lucide React](https://lucide.dev/)
+- **Database**: Offline `localStorage` + Skema [Supabase](https://supabase.com/) PostgreSQL
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Memulai Proyek Secara Lokal
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Clone repositori**:
+   ```bash
+   git clone <URL_REPOSITORI_ANDA>
+   cd quirky-mendeleev
+   ```
 
-## Deploy on Vercel
+2. **Install dependensi**:
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Jalankan server pengembangan**:
+   ```bash
+   npm run dev
+   ```
+   Buka [http://localhost:3000](http://localhost:3000) di browser Anda.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Menjalankan Unit Test**:
+   ```bash
+   npm test
+   ```
+
+5. **Build Produksi**:
+   ```bash
+   npm run build
+   ```
+
+---
+
+## Panduan Deploy ke Vercel
+
+1. Buka [vercel.com](https://vercel.com) dan masuk menggunakan akun GitHub Anda.
+2. Klik **Add New...** > **Project**.
+3. Pilih repositori **DompetKu** dari daftar GitHub Anda.
+4. Pada konfigurasi framework, biarkan default (**Next.js**).
+5. Klik **Deploy**. Aplikasi akan otomatis online dan mendapatkan URL HTTPS publik.
+
+---
+
+## Lisensi
+
+Proyek ini dibuat untuk kebutuhan personal finance tracking. Bebas dikembangkan lebih lanjut.

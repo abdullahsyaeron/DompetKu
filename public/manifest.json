@@ -4,8 +4,8 @@
   "description": "Aplikasi perencanaan anggaran, pemantauan arus kas harian, dan target tabungan pribadi",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#020617",
-  "theme_color": "#4f46e5",
+  "background_color": "#F5F5F7",
+  "theme_color": "#0071E3",
   "orientation": "portrait-primary",
   "icons": [
     {

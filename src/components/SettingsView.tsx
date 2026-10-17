@@ -6,7 +6,6 @@ import {
   Database,
   Download,
   Upload,
-  RefreshCw,
   Trash2,
   Cloud,
   Check,
@@ -23,7 +22,6 @@ import { supabaseSchemaSql, isSupabaseConfigured } from '@/lib/supabase';
 export interface SettingsViewProps {
   appData: AppData;
   onUpdatePin: (newPin: string) => void;
-  onResetDummyData: () => void;
   onResetEmptyData: () => void;
   onImportData: (importedData: AppData) => void;
   themeMode: 'light' | 'dark' | 'system';
@@ -33,7 +31,6 @@ export interface SettingsViewProps {
 export const SettingsView: React.FC<SettingsViewProps> = ({
   appData,
   onUpdatePin,
-  onResetDummyData,
   onResetEmptyData,
   onImportData,
   themeMode,
@@ -349,24 +346,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           <button
             type="button"
             onClick={() => {
-              if (confirm('Muat ulang data contoh demo? Data aktif akan digantikan.')) {
-                onResetDummyData();
-              }
-            }}
-            className="apple-btn apple-btn-secondary gap-2 text-xs apple-press cursor-pointer"
-          >
-            <RefreshCw className="h-4 w-4" />
-            Muat Data Contoh Demo
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
               if (confirm('Kosongkan seluruh data aplikasi? Anda akan memulai dari database kosong murni.')) {
                 onResetEmptyData();
               }
             }}
-            className="apple-btn text-xs font-semibold gap-2 bg-[var(--color-danger-bg)] text-[var(--color-danger-text)] border border-[var(--color-danger-text)]/20 hover:bg-[var(--color-danger-bg)]/80 apple-press cursor-pointer"
+            className="sm:col-span-2 apple-btn text-xs font-semibold gap-2 bg-[var(--color-danger-bg)] text-[var(--color-danger-text)] border border-[var(--color-danger-text)]/20 hover:bg-[var(--color-danger-bg)]/80 apple-press cursor-pointer"
           >
             <Trash2 className="h-4 w-4" />
             Kosongkan Seluruh Data

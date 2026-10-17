@@ -1,23 +1,23 @@
 import { AppData } from '@/types/finance';
-import { initialDummyData, emptyData } from './initialData';
+import { emptyData } from './initialData';
 
 const STORAGE_KEY = 'quirky_finance_app_data';
 
 export const loadAppData = (): AppData => {
   if (typeof window === 'undefined') {
-    return initialDummyData;
+    return emptyData;
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(initialDummyData));
-      return initialDummyData;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(emptyData));
+      return emptyData;
     }
     const parsed = JSON.parse(raw);
     return parsed;
   } catch (err) {
     console.error('Failed to parse localStorage data:', err);
-    return initialDummyData;
+    return emptyData;
   }
 };
 
@@ -35,13 +35,7 @@ export const resetToEmptyData = (): AppData => {
   return emptyData;
 };
 
-export const resetToDummyData = (): AppData => {
-  saveAppData(initialDummyData);
-  return initialDummyData;
-};
-
 export { formatRupiah, maskBalance } from './financeCalculations';
-
 
 export const formatDateID = (isoString: string): string => {
   try {

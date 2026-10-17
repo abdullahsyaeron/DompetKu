@@ -5,7 +5,6 @@ import { AppData, QuickTemplate, Transaction, TransactionType, Wallet, Goal, Bud
 import {
   loadAppData,
   saveAppData,
-  resetToDummyData,
   resetToEmptyData,
   formatRupiah,
 } from '@/lib/storage';
@@ -300,12 +299,6 @@ export default function Home() {
     updateAndSave({ ...appData, pinHash: newPin });
   };
 
-  const handleResetDummyData = () => {
-    const dummy = resetToDummyData();
-    setAppData(dummy);
-    showToast('Data demo dimuat.');
-  };
-
   const handleResetEmptyData = () => {
     const empty = resetToEmptyData();
     setAppData(empty);
@@ -411,7 +404,6 @@ export default function Home() {
           <SettingsView
             appData={appData}
             onUpdatePin={handleUpdatePin}
-            onResetDummyData={handleResetDummyData}
             onResetEmptyData={handleResetEmptyData}
             onImportData={handleImportData}
             themeMode={themeMode}
