@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-system: "Helvetica", "Helvetica Neue", Arial, sans-serif;
 
   /* Primary Palette */
   --color-primary: #0071E3;
@@ -91,6 +91,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+button, input, select, textarea {
+  font-family: inherit;
 }
 
 h1, h2, h3, h4, h5, h6 {
